@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://haroonzone.github.io/sitemap.xml 
