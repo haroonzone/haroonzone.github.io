@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setting Up a Test Project With Selenium, TestNG and Maven - Pragmatic QA</title>
+  <meta name="author" content="Haroon Rasheed">
+
+  
+  <meta name="description" content="It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://haroonzone.github.io/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Pragmatic QA" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21154219-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pragmatic QA</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:haroonzone.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Setting Up a Test Project With Selenium, TestNG and Maven</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
+
+<p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
+
+<p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
+
+<p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<p>To create a maven project, execute the following.
+  mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>
+
+<p>You will notice maven doing its magic and creating a directory structure for you. Once it is complete do a list in the current working directory and you will notice a directory called functionalTests in your workspace. The directory structure will be as follows.</p>
+
+<pre><code>|-functionalTests
+|--src
+|----main
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+|----test
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+</code></pre>
+
+<p>There is a debate going on these days about Convention over Configuration. Maven off course support Convention rather than project specific configuration. The structure of a maven project will always be similar to the structure shown above. All the application specific code resides in the src/main directory and the tests will be in the src/test directory with their respective resources.</p>
+
+<p>In any maven project POM plays an important part in organizing the project phases and project dependencies. The contents of the sample POM in the functionalTest project are as follows.</p>
+
+<p>I would highly recommend that you familiarize yourself with some basic concepts of maven like packaging, artifacts and version information. Clearly from the POM file below, the version of our application is 1.0-SNAPSHOT and the artifiact ID is functionalTests.</p>
+
+<p>We are interested in the dependencies, in this section you can define the external modules or other projects that you need to make available to your project. In our case we are interested in adding TestNG and Selenium RC support to our project. Therefore we will remove the JUnit dependency and add TestNG and Selenium RC. After doing this our POM contents will be as follows.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>  <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>com.pragmaticqa.tests<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>functionalTests<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;name&gt;</span>functionalTests<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;url&gt;</span>http://maven.apache.org<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.testng<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>testng<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;classifier&gt;</span>jdk15<span class="nt">&lt;/classifier&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>5.11<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.client-drivers<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>selenium-java-client-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>1.0.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;source&gt;</span>1.5<span class="nt">&lt;/source&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;target&gt;</span>1.5<span class="nt">&lt;/target&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>selenium-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>pre-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>start-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;background&gt;</span>true<span class="nt">&lt;/background&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;id&gt;</span>stop-selenium<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                              <span class="nt">&lt;goal&gt;</span>stop-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                      <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="c">&lt;!-- Skip the normal tests, we&#39;ll run them in the integration-test phase --&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;skip&gt;</span>true<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;skip&gt;</span>false<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Modify AppTest.java to make it a valid Selenium – TestNG test as shown below.</p>
+
+<figure class='code'><figcaption><span>lang: AppTest.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">pragmaticqa</span><span class="o">.</span><span class="na">tests</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.thoughtworks.selenium.DefaultSelenium</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.AfterClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.BeforeClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.Test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Unit test for simple App.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppTest</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DefaultSelenium</span> <span class="n">selenium</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@BeforeClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSelenium</span><span class="o">(</span><span class="s">&quot;localhost&quot;</span><span class="o">,</span><span class="mi">4444</span><span class="o">,</span><span class="s">&quot;*firefox&quot;</span><span class="o">,</span><span class="s">&quot;http://www.google.com/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testApp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">&quot;q&quot;</span><span class="o">,</span><span class="s">&quot;Selenium&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">click</span><span class="o">(</span><span class="s">&quot;btnG&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">assertEquals</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="s">&quot;Google&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@AfterClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The setup is complete and you can test the setup by opening up a terminal and go the functionalTests directory. Once you are in the directory do the following.</p>
+
+<p>  mvn integration-test</p>
+
+<p>You will see maven running the tests and once the maven process is complete you will have an output like this.</p>
+
+<pre><code>Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.382 sec
+Results :
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 23 seconds
+[INFO] Finished at: Thu May 20 21:38:45 BST 2010
+[INFO] Final Memory: 25M/80M
+[INFO] ------------------------------------------------------------------------
+</code></pre>
+
+<p>I hope this helps people in getting started with Maven, Selenium and TestNG.</p>
+
+<p>Happy testing!!!!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Haroon Rasheed</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/maven/'>maven</a>, <a class='category' href='/blog/categories/selenium/'>selenium</a>, <a class='category' href='/blog/categories/selenium-rc/'>selenium-rc</a>, <a class='category' href='/blog/categories/testng/'>testng</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haroonzone.github.io/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/" data-via="haroonzone" data-counturl="http://haroonzone.github.io/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/05/list-directory-structure-in-unixlinux/" title="Previous Post: List directory structure in Unix/Linux">&laquo; List directory structure in Unix/Linux</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/" title="Next Post: Tellurium TestNG Archetype; An easy approach to get started with Tellurium">Tellurium TestNG Archetype; An easy approach to get started with Tellurium &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Haroon Rasheed -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'haroonzone';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

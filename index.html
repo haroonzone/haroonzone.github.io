@@ -9,7 +9,7 @@
   <meta name="author" content="Haroon Rasheed">
 
   
-  <meta name="description" content=" Blog Archives ">
+  <meta name="description" content="Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,7 +81,2458 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/">Using Apache Commons Configuration to Manage Properties</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-28T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when you want to externalise the information such as application url, database hostname, database username etc.. These property files hold the information as a kay value pair and can be accessed when needed for the tests.</p>
+
+<p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
+
+<p>Once you have per environment property file then the next step is to make sure that you only hold information about the specific environment in the respective property file and do not repeat the same set of properties in all these files. For example the following three files represent three different environments where you want to run your tests, and each environment will have a distinct application url, a username , a password and we are assuming that these are Selenium or WebDriver functional tests and you want to usefor your tests. Therefore the property files hold the information about Sauce Labs.</p>
+
+<p><strong>functional-test-local.properties</strong></p>
+
+<pre><code>app.url = http://localhost:8080/
+username = local.username
+password = local.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-ci.properties</strong></p>
+
+<pre><code>app.url = http://ci.app.com/
+username = ci.username
+password = ci.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-staging.properties</strong></p>
+
+<pre><code>app.url = http://staging.app.com/
+username = staging.username
+password = staging.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
+
+<p>Many of the web frameworks provide this mechanism out of the box where you can use these mechanism to define the order of loading the properties. If your tests are part of the application under test then you can use this to manage the configuration required for the tests. But sometimes your tests are not part of the application, e.g. we recently started testing force.com based application using WebDriver. In this case the tests are not part of the application, and we did not want to add a dependency to the a big web framework for just managing our property files.</p>
+
+<p>came to our rescue, it provides a generic configuration interface which enables a Java application to read configuration data from a variety of sources.</p>
+
+<p>We can use the <em>CompositeConfiguration</em> and hence our new property files will look like as follows.</p>
+
+<p><strong>functional-test-common.properties</strong></p>
+
+<pre><code>sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-local.properties</strong></p>
+
+<pre><code>app.url = http://localhost:8080/
+username = local.username
+password = local.password
+</code></pre>
+
+<p><strong>functional-test-ci.properties</strong></p>
+
+<pre><code>app.url = http://ci.app.com/
+username = ci.username
+password = ci.password
+</code></pre>
+
+<p><strong>functional-test-staging.properties</strong></p>
+
+<pre><code>app.url = http://staging.app.com/
+username = staging.username
+password = staging.password
+</code></pre>
+
+<p>We have added a new property file and as the name implies it will hold properties that are common across all the environments, in our case these are properties for Sauce Labs.</p>
+
+<p>This also provides the ability to override the predefined properties. The order of precedence while loading the properties is as follows.</p>
+
+<ol>
+<li>System Properties</li>
+<li>Environment Specific properties</li>
+<li>Common properties</li>
+</ol>
+
+
+<p>You can see the code at my GitHub repo (<a href="http://github.com/haroonzone/commons-configuration">http://github.com/haroonzone/commons-configuration</a>)</p>
+
+<p>I hope this helps you in organising the property files and will reduce the unnecessary duplication.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/comparing-lists-with-hamcrest/">Comparing Lists With Hamcrest</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-05T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We have been using hamcrest matchers for some time now, and it is awesome to have more readable assertions in your tests. Recently we had a requirement to match lists for equality. This was simple enough, we used the following matcher to compare that the contents of the list are the same.</p>
+
+<figure class='code'><figcaption><span>lang: ListMatcher1.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">listTestsWithOrder</span><span class="o">(){</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;red&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;green&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;red&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;green&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="s">&quot;List equality without order&quot;</span><span class="o">,</span> <span class="n">list1</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">list2</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It worked nicely but then like anything in the project lifecycle, our requirement changed and we had to assert the contents of the two lists where the order does not matter, at this time we were using version 1.1 of Hamcrest. After a bit of digging I found that the new version (1.3) of Hamcrest has some new matchers specifically for collections, and changing our tests to following worked like a charm.</p>
+
+<figure class='code'><figcaption><span>lang: ListMatcher2.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">listTestsWithoutOrder</span><span class="o">(){</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;red&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;green&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;green&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;orange&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">&quot;red&quot;</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(</span><span class="s">&quot;List equality without order&quot;</span><span class="o">,</span> <span class="n">list1</span><span class="o">,</span> <span class="n">containsInAnyOrder</span><span class="o">(</span><span class="n">list2</span><span class="o">.</span><span class="na">toArray</span><span class="o">()));</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Notice the method <em>containsInAnyOrder</em>, this would compare the items in the list irrespective of the order. and if the order is important then it counterpart is <em>contains</em>. This would compare the items and would check for order as well.</p>
+
+<p>Also like any other matcher of Hamcrest, if your test fails then you get a very descriptive error message as follows.</p>
+
+<pre><code>java.lang.AssertionError: List equality without order
+Expected: iterable over ["green", "orange", "red", "blue"] in any order
+but: No item matches: “blue” in ["red", "green", "orange"]
+at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+at com.ft.specs.ListTests.listTestsWithoutOrder(ListTests.java:32)
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/03/track-your-tests-with-cuanto/">Track Your Tests With Cuanto</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-10T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>How often a developer has come to you and asked the following questions about a test failure.</p>
+
+<ul>
+<li>When it started failing?</li>
+<li>Was it failing for the same reason before?</li>
+</ul>
+
+
+<p>How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?</p>
+
+<p>In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements.</p>
+
+<p>Also Continuous integration tools are great and generate very good HTML reports but those HTML reports are tied to a build. It is not easy to navigate through each build and open up the test report to see the history of a particular test method, let alone verify the reason for the test failure.</p>
+
+<p>Beside this, once you have the HTML reports from the test run, you cannot store any analytical information about that test run anywhere until I found a very good tool for doing all this and much more. The name of the tool is <a href="http://www.trackyourtests.com/"> Cuanto </a></p>
+
+<p>I will go through the main features of Cuanto here and how we can use it to track TestNG tests. Cuanto supports TestNG, JUnit , NUnit and Manual test tracking, but I will go through the TestNG tests tracking. I have written a custom TestNG listener that uses Cuanto API to log the test results at the run-time. You can find more information about this listener on my <a href="https://github.com/haroonzone/cuanto-testng-listener">GitHub Repo</a></p>
+
+<p>When you run the tests using the TestNG listener, then you can analyse the test results using cuanto as follows.</p>
+
+<p>Go to the Cuanto URL in my case it is <a href="http://localhost:8080/cuanto">http://localhost:8080/cuanto</a>
+You will see the test run information as below.</p>
+
+<p><img src="/images/test_run.png" width="1000" height="490"></p>
+
+<p>This would show all the test runs for your project, now if you click on the first test run. It will open the view with all the tests that are run as part of this test run as shown below.</p>
+
+<p><img src="/images/test_outcome.png" width="1000" height="350"></p>
+
+<p>In this view, you have all the useful information about your tests such as test history, output, reason for the test failure. It also indicates if there is a new failure.</p>
+
+<p>When you click the History icon for any test method, then you will be able to view the historic information about the tests as how often this test have failed and what was the reason for the failure each time.</p>
+
+<p>You can sort the tests based on the duration and it would help you in identifying you slow tests easily then you can make informed decision about these tests.</p>
+
+<p>There is much more to Cuanto then this and it has the potential to become a very useful repository for the historical information about your tests.
+You can find out more about Cuanto on their website. They are working on a new Cuanto 2.8.0 version which is in beta at the moment. I have not looked at the change log but it is encouraging that people are still working on it.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/02/running-cucumber-feature-using-tellurium/">Running Cucumber Feature Using Tellurium</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-02-16T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
+
+<p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
+
+<p>Following is my pom.xml</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+<span class='line-number'>345</span>
+<span class='line-number'>346</span>
+<span class='line-number'>347</span>
+<span class='line-number'>348</span>
+<span class='line-number'>349</span>
+<span class='line-number'>350</span>
+<span class='line-number'>351</span>
+<span class='line-number'>352</span>
+<span class='line-number'>353</span>
+<span class='line-number'>354</span>
+<span class='line-number'>355</span>
+<span class='line-number'>356</span>
+<span class='line-number'>357</span>
+<span class='line-number'>358</span>
+<span class='line-number'>359</span>
+<span class='line-number'>360</span>
+<span class='line-number'>361</span>
+<span class='line-number'>362</span>
+<span class='line-number'>363</span>
+<span class='line-number'>364</span>
+<span class='line-number'>365</span>
+<span class='line-number'>366</span>
+<span class='line-number'>367</span>
+<span class='line-number'>368</span>
+<span class='line-number'>369</span>
+<span class='line-number'>370</span>
+<span class='line-number'>371</span>
+<span class='line-number'>372</span>
+<span class='line-number'>373</span>
+<span class='line-number'>374</span>
+<span class='line-number'>375</span>
+<span class='line-number'>376</span>
+<span class='line-number'>377</span>
+<span class='line-number'>378</span>
+<span class='line-number'>379</span>
+<span class='line-number'>380</span>
+<span class='line-number'>381</span>
+<span class='line-number'>382</span>
+<span class='line-number'>383</span>
+<span class='line-number'>384</span>
+<span class='line-number'>385</span>
+<span class='line-number'>386</span>
+<span class='line-number'>387</span>
+<span class='line-number'>388</span>
+<span class='line-number'>389</span>
+<span class='line-number'>390</span>
+<span class='line-number'>391</span>
+<span class='line-number'>392</span>
+<span class='line-number'>393</span>
+<span class='line-number'>394</span>
+<span class='line-number'>395</span>
+<span class='line-number'>396</span>
+<span class='line-number'>397</span>
+<span class='line-number'>398</span>
+<span class='line-number'>399</span>
+<span class='line-number'>400</span>
+<span class='line-number'>401</span>
+<span class='line-number'>402</span>
+<span class='line-number'>403</span>
+<span class='line-number'>404</span>
+<span class='line-number'>405</span>
+<span class='line-number'>406</span>
+<span class='line-number'>407</span>
+<span class='line-number'>408</span>
+<span class='line-number'>409</span>
+<span class='line-number'>410</span>
+<span class='line-number'>411</span>
+<span class='line-number'>412</span>
+<span class='line-number'>413</span>
+<span class='line-number'>414</span>
+<span class='line-number'>415</span>
+<span class='line-number'>416</span>
+<span class='line-number'>417</span>
+<span class='line-number'>418</span>
+<span class='line-number'>419</span>
+<span class='line-number'>420</span>
+<span class='line-number'>421</span>
+<span class='line-number'>422</span>
+<span class='line-number'>423</span>
+<span class='line-number'>424</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>com.pragmaticqa<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>bdd<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;name&gt;</span>Tellurium BDD Project<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;repositories&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>caja<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://google-caja.googlecode.com/svn/maven<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>kungfuters-public-snapshots-repo<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;name&gt;</span>Kungfuters.org Public Snapshot Repository<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;releases&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>false<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/releases&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;snapshots&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/snapshots&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://kungfuters.org/nexus/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>kungfuters-public-releases-repo<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;name&gt;</span>Kungfuters.org Public Releases Repository<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;releases&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/releases&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;snapshots&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>false<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/snapshots&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://kungfuters.org/nexus/content/repositories/releases<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>kungfuters-thirdparty-releases-repo<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;releases&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/releases&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;snapshots&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>false<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/snapshots&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://kungfuters.org/nexus/content/repositories/thirdparty<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>openqa-release-repo<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;releases&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/releases&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;snapshots&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;enabled&gt;</span>false<span class="nt">&lt;/enabled&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/snapshots&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://archiva.openqa.org/repository/releases<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;repository&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;id&gt;</span>cukes<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;url&gt;</span>http://cukes.info/maven<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/repository&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/repositories&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;pluginRepositories&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;pluginRepository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>cukes<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://cukes.info/maven<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/pluginRepository&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/pluginRepositories&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.hamcrest<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>hamcrest-all<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>gmaven-mojo<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.0-rc-5<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;exclusions&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;exclusion&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven.runtime<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>gmaven-runtime-1.5<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/exclusion&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/exclusions&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.picocontainer<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>picocontainer<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>2.10.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven.runtime<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>gmaven-runtime-1.6<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.0-rc-5<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>tellurium<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>tellurium-core<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>0.6.0<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.server<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>selenium-server<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.0.1-te<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="c">&lt;!--classifier&gt;standalone&lt;/classifier--&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.client-drivers<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>selenium-java-client-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.0.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;exclusions&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;exclusion&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven.runtime<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>gmaven-runtime-default<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/exclusion&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;exclusion&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.core<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>selenium-core<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/exclusion&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;exclusion&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.server<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>selenium-server<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/exclusion&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/exclusions&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;groupId&gt;</span>org.openqa.selenium.grid<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;artifactId&gt;</span>selenium-grid-tools<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;version&gt;</span>1.0.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>groovy-all<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.7.0<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>caja<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>json_simple<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>r1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.stringtree<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>stringtree-json<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>2.0.10<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;resources&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;resource&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;directory&gt;</span>src/main/groovy<span class="nt">&lt;/directory&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/resource&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;resource&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;directory&gt;</span>src/main/resources<span class="nt">&lt;/directory&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/resource&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/resources&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;testResources&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;testResource&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;directory&gt;</span>src/test/groovy<span class="nt">&lt;/directory&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/testResource&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;testResource&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;directory&gt;</span>src/test/resources<span class="nt">&lt;/directory&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/testResource&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/testResources&gt;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nt">&lt;pluginManagement&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.0.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.4.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-surefire-report-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.4.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-source-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.0.4<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-javadoc-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.4<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-site-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.0-beta-7<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>gmaven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>1.0-rc-5<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;artifactId&gt;</span>maven-jxr-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;version&gt;</span>2.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/pluginManagement&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;source&gt;</span>1.5<span class="nt">&lt;/source&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;target&gt;</span>1.5<span class="nt">&lt;/target&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;includes&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;include&gt;</span>**/*_UT.java<span class="nt">&lt;/include&gt;</span>
+</span><span class='line'>                       <span class="nt">&lt;include&gt;</span>**/*TestCase.java<span class="nt">&lt;/include&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/includes&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test-jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-source-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test-jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-javadoc-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>jar<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven
+</span><span class='line'>                <span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>gmaven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="c">&lt;!-- The generateStubs goals are not yet working for enums and generics --&gt;</span>
+</span><span class='line'>                            <span class="c">&lt;!-- &lt;goal&gt;generateStubs&lt;/goal&gt;--&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                            <span class="c">&lt;!--&lt;goal&gt;generateTestStubs&lt;/goal&gt;--&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>testCompile<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-antrun-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;version&gt;</span>1.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;groupId&gt;</span>org.apache.ant<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;artifactId&gt;</span>ant<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;version&gt;</span>1.7.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;groupId&gt;</span>org.apache.ant<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;artifactId&gt;</span>ant-launcher<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;version&gt;</span>1.7.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;groupId&gt;</span>org.apache.ant<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;artifactId&gt;</span>ant-nodeps<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;version&gt;</span>1.7.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                   <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;id&gt;</span>compile-java<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>generate-sources<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;tasks&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;path</span> <span class="na">id=</span><span class="s">&quot;compile.classpath&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">&quot;maven.compile.classpath&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;pathelement</span> <span class="na">location=</span><span class="s">&quot;target/classes&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;/path&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;mkdir</span> <span class="na">dir=</span><span class="s">&quot;target/classes&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;javac</span> <span class="na">srcdir=</span><span class="s">&quot;src/main/groovy&quot;</span> <span class="na">debug=</span><span class="s">&quot;${javac-debug}&quot;</span>
+</span><span class='line'>                                       <span class="na">destdir=</span><span class="s">&quot;target/classes&quot;</span> <span class="na">classpathref=</span><span class="s">&quot;compile.classpath&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">&quot;**/*.java&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;/javac&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;/tasks&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>run<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;id&gt;</span>compile-java-test<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>test-compile<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;tasks&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;path</span> <span class="na">id=</span><span class="s">&quot;testcompile.classpath&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">&quot;maven.compile.classpath&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;path</span> <span class="na">refid=</span><span class="s">&quot;maven.test.classpath&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;pathelement</span> <span class="na">location=</span><span class="s">&quot;target/classes&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;pathelement</span> <span class="na">location=</span><span class="s">&quot;target/test-classes&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;/path&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;javac</span> <span class="na">srcdir=</span><span class="s">&quot;src/test/groovy&quot;</span> <span class="na">debug=</span><span class="s">&quot;${javac-debug}&quot;</span>
+</span><span class='line'>                                       <span class="na">destdir=</span><span class="s">&quot;target/test-classes&quot;</span> <span class="na">classpathref=</span><span class="s">&quot;testcompile.classpath&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>                                    <span class="nt">&lt;include</span> <span class="na">name=</span><span class="s">&quot;**/*.java&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>                                <span class="nt">&lt;/javac&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;/tasks&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>run<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>cuke4duke<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>cuke4duke-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;jvmArgs&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;jvmArg&gt;</span>
+</span><span class='line'>                            -Dcuke4duke.objectFactory=cuke4duke.internal.jvmclass.PicoFactory
+</span><span class='line'>                        <span class="nt">&lt;/jvmArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;jvmArg&gt;</span>-Dfile.encoding=UTF-8<span class="nt">&lt;/jvmArg&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/jvmArgs&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;cucumberArgs&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--backtrace<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--color<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--verbose<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--format<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>pretty<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--format<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>html<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--out<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>target/cucumber-reports.html<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>--require<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;cucumberArg&gt;</span>${basedir}/target/test-classes<span class="nt">&lt;/cucumberArg&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/cucumberArgs&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;gems&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;gem&gt;</span>install cuke4duke --version 0.3.2<span class="nt">&lt;/gem&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/gems&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;id&gt;</span>run-features<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>cucumber<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groupId&gt;</span>org.codehaus.groovy.maven<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;artifactId&gt;</span>gmaven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>              <span class="nt">&lt;goal&gt;</span>testCompile<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>          <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;reporting&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-report-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;reportSets&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;reportSet&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;reports&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;report&gt;</span>report-only<span class="nt">&lt;/report&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/reports&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/reportSet&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/reportSets&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-jxr-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/reporting&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;properties&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;java-version&gt;</span>1.5<span class="nt">&lt;/java-version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;groovy-version&gt;</span>1.6.0<span class="nt">&lt;/groovy-version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;gmaven-version&gt;</span>1.0-rc-5<span class="nt">&lt;/gmaven-version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;selenium-version&gt;</span>1.0.1<span class="nt">&lt;/selenium-version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;javac-debug&gt;</span>true<span class="nt">&lt;/javac-debug&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/properties&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The project structure is as follows.</p>
+
+<p><img src="/images/project_structure.png"></p>
+
+<p>The contents of the feature file “GoogleSearch.feature” are:</p>
+
+<pre><code>Feature: Google Search Feature
+             In order to ensure that Google Search works
+             I want to run a quick Hello World search.
+        Scenario: Hello World Scenario
+              Given The search is Hello World
+              When The Search is performed
+              Then The browser title should have Hello World
+</code></pre>
+
+<p>Now we need to provide the implementation of the Steps file, that will drive Tellurium to test the application. For this I am using the GroovyDSL pattern provided by the cukes4duke plugin. I have created the file “GoogleSearchSteps.groovy” as shown below.</p>
+
+<figure class='code'><figcaption><span>lang: groovy</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>package test
+</span><span class='line'>
+</span><span class='line'>import module.GoogleSearchModule
+</span><span class='line'>import org.tellurium.test.groovy.TelluriumGroovyTestCase
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>this.metaClass.mixin(cuke4duke.GroovyDsl)
+</span><span class='line'>
+</span><span class='line'>GoogleSearchModule gsm;
+</span><span class='line'>
+</span><span class='line'>Before(){
+</span><span class='line'>    TelluriumGroovyTestCase.newInstance().with {
+</span><span class='line'>        setUpForClass()
+</span><span class='line'>        connectUrl "http://www.google.com"
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Given (~/The search is Hello World/){
+</span><span class='line'>    gsm = new GoogleSearchModule()
+</span><span class='line'>    gsm.defineUi()
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>When (~/The Search is performed/){
+</span><span class='line'>    gsm.doGoogleSearch "Hello World"
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>Then (~/The browser title should have Hello World/){
+</span><span class='line'>    org.hamcrest.MatcherAssert.assertThat("Browser title: ", gsm.getBrowserTitle(),
+</span><span class='line'>            org.hamcrest.Matchers.containsString("hello world"));
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>After(){
+</span><span class='line'>    TelluriumGroovyTestCase.newInstance().with {
+</span><span class='line'>        tearDownForClass()
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you are done with the set up above, now run the integration-test goal.</p>
+
+<pre><code>mvn clean integration-test
+</code></pre>
+
+<p>This would run the feature file and drive Tellurium. Once the build is finished, you can see the test results under the /target/cucumber-reports.html.</p>
+
+<p><img src="/images/test_results.png"></p>
+
+<p>Green is good!!!!!!!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/">BDD Using Selenium 2, Maven and Cucumber-jvm</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-11-18T00:00:00+00:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
+
+<p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>
+
+<p>Following are the contents of the pom.xml file for my project.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
+</span><span class='line'>         <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>         <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;groupId&gt;</span>cucumberDemo<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;artifactId&gt;</span>cucumberDemo<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;pluginRepositories&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;pluginRepository&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;id&gt;</span>cukes<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;url&gt;</span>http://cukes.info/maven<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/pluginRepository&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/pluginRepositories&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>info.cukes<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>cucumber-picocontainer<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.1.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>info.cukes<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>cucumber-junit<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.1.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>junit<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>junit<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>4.10<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.hamcrest<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>hamcrest-all<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>1.1<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>selenium-htmlunit-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>2.25.0<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>selenium-server<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>2.25.0<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;version&gt;</span>3.0<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;source&gt;</span>1.7<span class="nt">&lt;/source&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;target&gt;</span>1.7<span class="nt">&lt;/target&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;version&gt;</span>2.12.2<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;useFile&gt;</span>false<span class="nt">&lt;/useFile&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The project structure that I have created is as follows.</p>
+
+<p><img src="/images/project_structure1.png"></p>
+
+<p>Now create a “GoogleSearch.feature” file under the features directory as.</p>
+
+<pre><code>Feature: Google Search Feature
+In order to ensure that Google Search works
+I want to run a quick Hello World search.
+
+Scenario: Hello World Scenario
+Given The search is Hello World
+When The Search is performed
+Then The browser title should have Hello World
+</code></pre>
+
+<p>Now create a class file under the following package.</p>
+
+<pre><code>src/test/java/cucumberdemo/GoogleSearchFeature.java
+</code></pre>
+
+<p>If you have not installed Cucumber before then for the first time you run this project you need to specify the following command.</p>
+
+<pre><code>mvn clean integration-test
+</code></pre>
+
+<p>Following is the out put of doing this command.</p>
+
+<pre><code>[INFO] Feature: Google Search Feature
+[INFO] In order to ensure that Google Search works
+[INFO] I want to run a quick Hello World search.
+[INFO]
+[INFO] Scenario: Hello World Scenario # features/GoogleSearch.feature:5
+[INFO] Given The search is Hello World # features/GoogleSearch.feature:6
+[INFO] When The Search is performed # features/GoogleSearch.feature:7
+[INFO] Then The browser title should have Hello World # features/GoogleSearch.feature:8
+[INFO]
+[INFO] 1 scenario (1 undefined)
+[INFO] 3 steps (3 undefined)
+[INFO] 0m0.334s
+INFO] You can implement step definitions for undefined steps with these snippets:
+[INFO]
+[INFO] @Given ("^The search is Hello World$")
+[INFO] @Pending
+[INFO] public void theSearchIsHelloWorld() {
+[INFO] }
+[INFO]
+[INFO] @When ("^The Search is performed$")
+[INFO] @Pending
+[INFO] public void theSearchIsPerformed() {
+[INFO] }
+[INFO]
+[INFO] @Then ("^The browser title should have Hello World$")
+[INFO] @Pending
+[INFO] public void theBrowserTitleShouldHaveHelloWorld() {
+[INFO] }
+</code></pre>
+
+<p>Now copy the step definitions from the command line interface and add these steps to the GoogleSearchFeature class file as follows. If you notice that there is an annotation @Pending, this would make sure that if the feature has not been implemented then Cucumber will ignore these tests. In the following class, I have removed the @Pending annotation and add Selenium 2 code.</p>
+
+<figure class='code'><figcaption><span>lang: GoogleSearchSteps.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">import</span> <span class="nn">cucumber.api.java.en.Given</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">cucumber.api.java.en.Then</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">cucumber.api.java.en.When</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.openqa.selenium.By</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.openqa.selenium.WebDriver</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.openqa.selenium.htmlunit.HtmlUnitDriver</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">hamcrest</span><span class="o">.</span><span class="na">MatcherAssert</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">hamcrest</span><span class="o">.</span><span class="na">Matchers</span><span class="o">.</span><span class="na">containsString</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GoogleSearchSteps</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">WebDriver</span> <span class="n">driver</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Given</span><span class="o">(</span><span class="s">&quot;^The search is Hello World$&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSearchIsHelloWorld</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">driver</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HtmlUnitDriver</span><span class="o">();</span>
+</span><span class='line'>        <span class="n">driver</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;http://www.google.co.uk&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">driver</span><span class="o">.</span><span class="na">findElement</span><span class="o">(</span><span class="n">By</span><span class="o">.</span><span class="na">xpath</span><span class="o">(</span><span class="s">&quot;//input[@name=&#39;q&#39;]&quot;</span><span class="o">)).</span><span class="na">sendKeys</span><span class="o">(</span><span class="s">&quot;Hello World&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@When</span><span class="o">(</span><span class="s">&quot;^The Search is performed$&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theSearchIsPerformed</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">driver</span><span class="o">.</span><span class="na">findElement</span><span class="o">(</span><span class="n">By</span><span class="o">.</span><span class="na">xpath</span><span class="o">(</span><span class="s">&quot;//input[@name=&#39;btnG&#39;]&quot;</span><span class="o">)).</span><span class="na">click</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Then</span><span class="o">(</span><span class="s">&quot;^The browser title should have Hello World$&quot;</span><span class="o">)</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">theBrowserTitleShouldHaveHelloWorld</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">assertThat</span> <span class="o">(</span><span class="s">&quot;Browser title:&quot;</span><span class="o">,</span><span class="n">driver</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="n">containsString</span><span class="o">(</span><span class="s">&quot;Hello World&quot;</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">driver</span><span class="o">.</span><span class="na">quit</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you go the terminal again and run the following maven command again.</p>
+
+<pre><code>mvn clean integration-test
+</code></pre>
+
+<p>You will see the tests running and once the tests are finished you can see the following test results in the project’s target directory.</p>
+
+<p><img src="/images/cucumber_results.png"></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/">AbstractTestNGSpringContextTests and TestNG @BeforeSuite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-05T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
+
+<p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
+
+<p>But when I did that I got null pointer exceptions all over the place, the code was complaining about the classes instantiated via Spring Application Context being null, and when I looked at the AbstractTestNGSpringContextTests implementation I found that AbstractTestNGSpringContextTests’s springTestContextPrepareTestInstance() method is currently annotated with @BeforeClass, which does not allow @BeforeSuite methods in subclasses from interacting with the ApplicationContext.</p>
+
+<p>To overcome this problem, you can override the springTestContextPrepareTestInstance() method in your subclass as follows.</p>
+
+<figure class='code'><figcaption><span>lang: java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@BeforeSuite(alwaysRun = true)
+</span><span class='line'>@BeforeClass(alwaysRun = true)
+</span><span class='line'>@BeforeTest(alwaysRun = true)
+</span><span class='line'>@Override
+</span><span class='line'>protected void springTestContextPrepareTestInstance() throws Exception {
+</span><span class='line'>        super.springTestContextPrepareTestInstance();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/09/use-of-hamcrest-for-test-assertions/">Use of Hamcrest for Test Assertions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-04T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
+
+<pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
+assertTrue (thePage.isLinkPresent(), "Link 1 is present.")
+</code></pre>
+
+<p>The equivalent assertions using hamcrest would be as follows.</p>
+
+<pre><code>assertThat("Link count on the page", thePage.getLinkCount(), equalTo(10));
+assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
+</code></pre>
+
+<p>You can see that the hamcrest matchers are more expressive and readable in the code. Another benfit of using hamcrest is that you can write custom matchers easily. e.g. you want to write an assertion in the test that checks that you have more than 20 items in your list and the item count is an even number.</p>
+
+<pre><code>assertThat ("Country item count", countryList.getCount(), allOf(greaterThan(20), evenNumber()));
+</code></pre>
+
+<p>It is easy to write and much more readable in the tests and if the test fails then it gives a clear description of the failure. Another benefit of using hamcrest is that you as a test developer does not have to worry about the different in the method signature for TestNG and JUnit.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/tellurium-and-easyb-integration/">Tellurium and Easyb Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-13T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
+easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
+
+<p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
+
+<p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.telluriumsource<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>tellurium-core<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>0.8.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.easyb<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-easyb-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;version&gt;</span>0.9.7<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;easybTestDirectory&gt;</span>
+</span><span class='line'>                    ${basedir}/src/test/groovy/org/telluriumsource/easyb/story
+</span><span class='line'>                    <span class="nt">&lt;/easybTestDirectory&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;storyReport&gt;</span>
+</span><span class='line'>                    ${project.build.directory}/easyb-stories.txt
+</span><span class='line'>                    <span class="nt">&lt;/storyReport&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;xmlReport&gt;</span>
+</span><span class='line'>                    ${project.build.directory}/easyb-report.xml
+</span><span class='line'>                    <span class="nt">&lt;/xmlReport&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use any of the Java IDEs to write an easyb story. There are plug-ins available for IntelliJ and Eclipse. Following is the code for GoogleSearchTest.story. You might want to change the configuration in the pom.xml above to match to your environment.</p>
+
+<figure class='code'><figcaption><span>lang: groovy</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import org.telluriumsource.test.java.TelluriumEasybTestCase
+</span><span class='line'>import easyb.module.GoogleSearchModule
+</span><span class='line'>
+</span><span class='line'>scenario "user searches for tellurium on google.com", {
+</span><span class='line'>
+</span><span class='line'>before "start tellurium"
+</span><span class='line'>  tellurium = new TelluriumEasybTestCase();
+</span><span class='line'>  tellurium.start();
+</span><span class='line'>  googleSearch = new GoogleSearchModule();
+</span><span class='line'>  googleSearch.defineUi();
+</span><span class='line'>  tellurium.connectSeleniumServer();
+</span><span class='line'>
+</span><span class='line'>given "google.com is up",{
+</span><span class='line'>  tellurium.connectUrl("http://www.google.com");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>when "user searches for tellurium",{
+</span><span class='line'>  googleSearch.doGoogleSearch("tellurium test");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>then "title should start with tellurium",{
+</span><span class='line'>  googleSearch.getTitle().shouldStartWith "tellurium";
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>after "stop tellurium"
+</span><span class='line'>    tellurium.stop();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You would have notice that we are making use of GoogleSearchModule which is standard way of defining UI modules in Tellurium and we have also exposed methods to run Tellurium within an easyb story in TelluriumEasybTestCase.</p>
+
+<p>This is all you need to do in order to define an easyb story and run this using Tellurium.</p>
+
+<p>You can use the maven test goal to run the easyb stories.
+  mvn clean test</p>
+
+<p>Once the test is finished, the output will be generated in your project build directory as easyb-stories.txt and easyb-report.xml</p>
+
+<p>Similarly you can write an easyb specification and use Tellurium to drive the tests for that specification. We are very excited about this as this is just the beginning to drive Tellurium towards Behaviour Driven Development.</p>
+
+<p>You can find the sample project on Tellurium code repository under the following location.
+<a href="http://code.google.com/p/aost/source/browse/#svn/trunk/extensions/tellurium-easyb">http://code.google.com/p/aost/source/browse/#svn/trunk/extensions/tellurium-easyb</a></p>
+
+<p>As always, in case of any questions please feel free to post it to the <a href="http://groups.google.com/group/tellurium-users">Tellurium User Group</a>.</p>
+
+<p>Thanks
+Tellurium Team</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
+
+<p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
+
+<p>We will be creating a new <a href="http://code.google.com/p/aost">Tellurium</a> project by making use of the Tellurium TestNG Archetype. This is an easy and quick way to get yourself started with <a href="http://code.google.com/p/aost">Tellurium</a>.</p>
+
+<p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
+
+<p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
+This should go in your_home/.m2/settings.xml file:</p>
+
+<figure class='code'><figcaption><span>lang: xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;settings>
+</span><span class='line'>    &lt;profiles>
+</span><span class='line'>        &lt;profile>
+</span><span class='line'>            &lt;activation>
+</span><span class='line'>                &lt;activeByDefault>true&lt;/activeByDefault>
+</span><span class='line'>            &lt;/activation>
+</span><span class='line'>            &lt;repositories>
+</span><span class='line'>                 &lt;repository>
+</span><span class='line'>                    &lt;id>kungfuters-public-snapshots-repo&lt;/id>
+</span><span class='line'>                    &lt;name>Kungfuters.org Public Snapshot Repository&lt;/name>
+</span><span class='line'>                    &lt;releases>
+</span><span class='line'>                        &lt;enabled>false&lt;/enabled>
+</span><span class='line'>                    &lt;/releases>
+</span><span class='line'>                    &lt;snapshots>
+</span><span class='line'>                        &lt;enabled>true&lt;/enabled> 
+</span><span class='line'>                    &lt;/snapshots>
+</span><span class='line'>                    &lt;url>http://maven.kungfuters.org/content/repositories/snapshots&lt;/url>
+</span><span class='line'>                &lt;/repository>
+</span><span class='line'>                &lt;repository>
+</span><span class='line'>                    &lt;id>kungfuters-public-releases-repo&lt;/id>
+</span><span class='line'>                    &lt;name>Kungfuters.org Public Releases Repository&lt;/name>
+</span><span class='line'>                    &lt;releases>
+</span><span class='line'>                        &lt;enabled>true&lt;/enabled> 
+</span><span class='line'>                    &lt;/releases>
+</span><span class='line'>                    &lt;snapshots>
+</span><span class='line'>                        &lt;enabled>false&lt;/enabled>
+</span><span class='line'>                    &lt;/snapshots>
+</span><span class='line'>                    &lt;url>http://maven.kungfuters.org/content/repositories/releases&lt;/url>
+</span><span class='line'>                &lt;/repository> 
+</span><span class='line'>            &lt;/repositories>
+</span><span class='line'>        &lt;/profile>
+</span><span class='line'>    &lt;/profiles>
+</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, run the following maven command to create your new project</p>
+
+<pre><code>mvn archetype:create -DgroupId=your_group_id \
+                     -DartifactId=your_artifact_id \
+                     -DarchetypeArtifactId=tellurium-testng-archetype \
+                     -DarchetypeGroupId=tellurium \
+                     -DarchetypeVersion=0.6.0
+</code></pre>
+
+<p>Without adding the <a href="http://code.google.com/p/aost">Tellurium</a> Maven repository, you can specify it in the command line as</p>
+
+<pre><code>mvn archetype:create -DgroupId=your_group_id \
+                     -DartifactId=your_artifact_id \
+                     -DarchetypeArtifactId=tellurium-testng-archetype \
+                     -DarchetypeGroupId=tellurium \
+                     -DarchetypeVersion=0.6.0 \
+                     -DarchetypeRepository=http://maven.kungfuters.org/content/repositories/releases
+</code></pre>
+
+<p>But you still need to put the <a href="http://code.google.com/p/aost">Tellurium</a> repository into your settings.xml later since the Tellurium test project needs to download other <a href="http://code.google.com/p/aost">Tellurium</a> artifacts from the repository, for example, the <a href="http://code.google.com/p/aost">tellurium</a> core jar file.</p>
+
+<p>After the project is created, you will find the following files</p>
+
+<pre><code>pom.xml
+src
+src/main
+src/main/groovy
+src/main/resources
+src/test
+src/test/groovy
+src/test/groovy/module
+src/test/groovy/module/GoogleSearchModule.groovy
+src/test/groovy/test
+src/test/groovy/test/GoogleSearchTestCase.java
+src/test/resources
+TelluriumConfig.groovy
+</code></pre>
+
+<p>You should use your IDE to open the project, for example, in IntelliJ IDEA, do the following steps</p>
+
+<p><strong>New Project > Import project from external model > Maven > Project directory > Finish</strong></p>
+
+<p>You will open up a Maven project and make sure you are using Groovy 1.6.0 in your project. After that, compile the project and run the example test GoogleSearchTestCase.</p>
+
+<p>If you want to run the tests in command line, you can use the following command</p>
+
+<pre><code>mvn clean test
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Setting Up a Test Project With Selenium, TestNG and Maven</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
+
+<p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
+
+<p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
+
+<p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<p>To create a maven project, execute the following.
+  mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>
+
+<p>You will notice maven doing its magic and creating a directory structure for you. Once it is complete do a list in the current working directory and you will notice a directory called functionalTests in your workspace. The directory structure will be as follows.</p>
+
+<pre><code>|-functionalTests
+|--src
+|----main
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+|----test
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+</code></pre>
+
+<p>There is a debate going on these days about Convention over Configuration. Maven off course support Convention rather than project specific configuration. The structure of a maven project will always be similar to the structure shown above. All the application specific code resides in the src/main directory and the tests will be in the src/test directory with their respective resources.</p>
+
+<p>In any maven project POM plays an important part in organizing the project phases and project dependencies. The contents of the sample POM in the functionalTest project are as follows.</p>
+
+<p>I would highly recommend that you familiarize yourself with some basic concepts of maven like packaging, artifacts and version information. Clearly from the POM file below, the version of our application is 1.0-SNAPSHOT and the artifiact ID is functionalTests.</p>
+
+<p>We are interested in the dependencies, in this section you can define the external modules or other projects that you need to make available to your project. In our case we are interested in adding TestNG and Selenium RC support to our project. Therefore we will remove the JUnit dependency and add TestNG and Selenium RC. After doing this our POM contents will be as follows.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>  <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>com.pragmaticqa.tests<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>functionalTests<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;name&gt;</span>functionalTests<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;url&gt;</span>http://maven.apache.org<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.testng<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>testng<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;classifier&gt;</span>jdk15<span class="nt">&lt;/classifier&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>5.11<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.client-drivers<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>selenium-java-client-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>1.0.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;source&gt;</span>1.5<span class="nt">&lt;/source&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;target&gt;</span>1.5<span class="nt">&lt;/target&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>selenium-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>pre-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>start-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;background&gt;</span>true<span class="nt">&lt;/background&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;id&gt;</span>stop-selenium<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                              <span class="nt">&lt;goal&gt;</span>stop-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                      <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="c">&lt;!-- Skip the normal tests, we&#39;ll run them in the integration-test phase --&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;skip&gt;</span>true<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;skip&gt;</span>false<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Modify AppTest.java to make it a valid Selenium – TestNG test as shown below.</p>
+
+<figure class='code'><figcaption><span>lang: AppTest.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">pragmaticqa</span><span class="o">.</span><span class="na">tests</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.thoughtworks.selenium.DefaultSelenium</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.AfterClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.BeforeClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.Test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Unit test for simple App.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppTest</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DefaultSelenium</span> <span class="n">selenium</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@BeforeClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSelenium</span><span class="o">(</span><span class="s">&quot;localhost&quot;</span><span class="o">,</span><span class="mi">4444</span><span class="o">,</span><span class="s">&quot;*firefox&quot;</span><span class="o">,</span><span class="s">&quot;http://www.google.com/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testApp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">&quot;q&quot;</span><span class="o">,</span><span class="s">&quot;Selenium&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">click</span><span class="o">(</span><span class="s">&quot;btnG&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">assertEquals</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="s">&quot;Google&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@AfterClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The setup is complete and you can test the setup by opening up a terminal and go the functionalTests directory. Once you are in the directory do the following.</p>
+
+<p>  mvn integration-test</p>
+
+<p>You will see maven running the tests and once the maven process is complete you will have an output like this.</p>
+
+<pre><code>Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.382 sec
+Results :
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 23 seconds
+[INFO] Finished at: Thu May 20 21:38:45 BST 2010
+[INFO] Final Memory: 25M/80M
+[INFO] ------------------------------------------------------------------------
+</code></pre>
+
+<p>I hope this helps people in getting started with Maven, Selenium and TestNG.</p>
+
+<p>Happy testing!!!!</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

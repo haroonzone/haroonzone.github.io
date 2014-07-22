@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tellurium and Test Automation Process - Pragmatic QA</title>
+  <meta name="author" content="Haroon Rasheed">
+
+  
+  <meta name="description" content="Today I will focus on how Tellurium fits into test automation of a large scale project and how easy and effective it is to use Tellurium.
+Test &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://haroonzone.github.io/blog/2009/06/tellurium-automation-process">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Pragmatic QA" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21154219-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pragmatic QA</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:haroonzone.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Tellurium and Test Automation Process</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-02T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Today I will focus on how Tellurium fits into test automation of a large scale project and how easy and effective it is to use Tellurium.
+Test automation with any testing tool involves following main stages.</p>
+
+<p><strong>Planning Tests &ndash;> Developing Tests &ndash;> Running Tests &ndash;> Analysing Results</strong></p>
+
+<p><strong>Planning Tests</strong></p>
+
+<p>As a test automation engineer, this is the foremost thing you would do. We should treat any test automation project in the same way as we would treat a development project. We should keep all aspects of software engineering in mind such as Readability, Re usability, Modularity and Maintainability.</p>
+
+<p>At this point you should define clear objectives for test automation, you also need to analyse the application under test and determine that which objects and operations are used by the business processes that you are going to automate. You also need to define the data set up and tear down so that your tests starts from a known state of the database and after the test execution tear down the data that it has created during test execution, so that you can run these tests on different environments. This would also ensure that your tests do not leave the database in inconsistent state.</p>
+
+<p>There are many techniques available to do the database operations. I have been using DBUnit for this purposes and it is really a good open source tool to do the job.</p>
+
+<p>The next step is to decide on organizing the tests. We have decided on using Tellurium as the tool of our choice for our web application, because Tellurium provides an easy and practical way to organize the web UI tests out of the box and we can focus on writing the new tests using the features available. Tellurium is a generic test automation framework that can be utilized on any web application test automation project. It means that we do not have to worry about writing a new framework for every application/project.</p>
+
+<p>You can either use JUnit or TestNG with Tellurium to run the tests. We will be developing Tellurium tests using TestNG.</p>
+
+<p><strong>Developing Tests</strong></p>
+
+<p>You can create a new Tellurium and TestNG project using the instructions on the following URL.
+<a href="http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes">http://code.google.com/p/aost/wiki/TelluriumMavenArchetypes</a></p>
+
+<p>Now you will have a project structure where you can build upon the features provided by Tellurium. The project structure is as follows.</p>
+
+<pre><code>pom.xml
+src
+src/main
+src/main/groovy
+src/main/resources
+src/test
+src/test/groovy
+src/test/groovy/module
+src/test/groovy/module/GoogleSearchModule.groovy
+src/test/groovy/test
+src/test/groovy/test/GoogleSearchTestCase.java
+src/test/resources
+TelluriumConfig.groovy
+</code></pre>
+
+<p>You can use the IDE of your own choice and import this as a maven project and it will download the Maven dependencies from the Tellurium repository.</p>
+
+<p>This structure is extremely useful in organizing your tests for a large scale project. You can abstract the interactions with the UI of the application within <strong> src/test/groovy/module </strong>. You define the UI of the application with object’s properties and define the common operations that you would do on those UI components.</p>
+
+<p>We can divide writing the UI modules in two different operations.</p>
+
+<ol>
+<li>Define the UI of the application.</li>
+<li>Define common functions/business scenarios based on the UI module.</li>
+</ol>
+
+
+<p>You can define the UI of the application using Firebug or IE Developer Toolbar to inspect the DOM structure of the application under tests and identify the unique properties which would help Tellurium in identifying the UI component at the run-time. Alternatively you can use Trump to generate the UI module of the application. Trump is available as a firefox plugin to Tellurium users and is of great help in defining the UI of the application and saving them as groovy files.</p>
+
+<p>You can get more information about Trump on the following URL.
+<a href="http://code.google.com/p/aost/wiki/TrUMP">http://code.google.com/p/aost/wiki/TrUMP</a></p>
+
+<p>To define the common reusable functions or business scenarios, you need to have discussions with the business analysts and product owners or refer to the requirements document.</p>
+
+<p>e.g. UI module for GoogleSearchModule.groovy is as follows.</p>
+
+<figure class='code'><figcaption><span>lang: GoogleSearchModule.groovy</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kd">class</span> <span class="nc">GoogleSearchModule</span> <span class="kd">extends</span> <span class="n">DslContext</span><span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">defineUi</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">ui</span><span class="o">.</span><span class="na">Container</span><span class="o">(</span><span class="nl">uid:</span> <span class="s2">&quot;google_start_page&quot;</span><span class="o">,</span> <span class="nl">clocator:</span> <span class="o">[</span><span class="nl">tag:</span> <span class="s2">&quot;td&quot;</span><span class="o">],</span> <span class="nl">group:</span> <span class="s2">&quot;true&quot;</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">InputBox</span><span class="o">(</span><span class="nl">uid:</span> <span class="s2">&quot;searchbox&quot;</span><span class="o">,</span> <span class="nl">clocator:</span> <span class="o">[</span><span class="nl">title:</span> <span class="s2">&quot;Google Search&quot;</span><span class="o">])</span>
+</span><span class='line'>      <span class="n">SubmitButton</span><span class="o">(</span><span class="nl">uid:</span> <span class="s2">&quot;googlesearch&quot;</span><span class="o">,</span> <span class="nl">clocator:</span> <span class="o">[</span><span class="nl">name:</span> <span class="s2">&quot;btnG&quot;</span><span class="o">,</span> <span class="nl">value:</span> <span class="s2">&quot;Google Search&quot;</span><span class="o">])</span>
+</span><span class='line'>      <span class="n">SubmitButton</span><span class="o">(</span><span class="nl">uid:</span> <span class="s2">&quot;Imfeelinglucky&quot;</span><span class="o">,</span> <span class="nl">clocator:</span> <span class="o">[</span><span class="nl">value:</span> <span class="s2">&quot;I&#39;m Feeling Lucky&quot;</span><span class="o">])</span>
+</span><span class='line'>      <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>    
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="nf">doGoogleSearch</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">type</span> <span class="s2">&quot;searchbox&quot;</span><span class="o">,</span> <span class="n">input</span>
+</span><span class='line'>      <span class="n">pause</span> <span class="mi">500</span>
+</span><span class='line'>      <span class="n">click</span> <span class="s2">&quot;googlesearch&quot;</span>
+</span><span class='line'>      <span class="n">waitForPageToLoad</span> <span class="mi">30000</span>
+</span><span class='line'>  <span class="o">}</span>    
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="nf">doImFeelingLucky</span><span class="o">(</span><span class="n">String</span> <span class="n">input</span><span class="o">){</span>
+</span><span class='line'>      <span class="n">type</span> <span class="s2">&quot;searchbox&quot;</span><span class="o">,</span> <span class="n">input</span><span class="o">&lt;</span><span class="n">br</span> <span class="o">/&gt;</span>
+</span><span class='line'>      <span class="n">pause</span> <span class="mi">500</span>
+</span><span class='line'>      <span class="n">click</span> <span class="s2">&quot;Imfeelinglucky&quot;</span>
+</span><span class='line'>      <span class="n">waitForPageToLoad</span> <span class="mi">30000</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you have noticed that as a test automation engineer you are not writing XPath expressions to define the UI of the application under tests, but rather you are using the unique properties of the UI objects to define the UI module and then defining reusable functions that you can use accross your tests and if there is any change in either the UI of the application or the behaviour of a search you just change this class file and this change will be available to your tests.</p>
+
+<p>Next step is to create tests where you will use the UI module and common functions to do the actual testing. As stated earlier you have the option of using either JUnit or TestNG as test execution framework.</p>
+
+<figure class='code'><figcaption><span>lang: GoogleSearchTestCase.groovy</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GoogleSearchTestCase</span> <span class="kd">extends</span> <span class="n">TelluriumTestNGTestCase</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">protected</span> <span class="kd">static</span> <span class="n">GoogleSearchModule</span> <span class="n">gsm</span><span class="o">;</span>
+</span><span class='line'>  
+</span><span class='line'>  <span class="nd">@BeforeClass</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">gsm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GoogleSearchModule</span><span class="o">();</span>
+</span><span class='line'>      <span class="n">gsm</span><span class="o">.</span><span class="na">defineUi</span><span class="o">();</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testGoogleSearch</span><span class="o">(){</span>
+</span><span class='line'>      <span class="n">connectUrl</span><span class="o">(</span><span class="s2">&quot;http://www.google.com&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">gsm</span><span class="o">.</span><span class="na">doGoogleSearch</span><span class="o">(</span><span class="s2">&quot;tellurium selenium Groovy Test&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nd">@Test</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testGoogleSearchFeelingLucky</span><span class="o">(){</span>
+</span><span class='line'>      <span class="n">connectUrl</span><span class="o">(</span><span class="s2">&quot;http://www.google.com&quot;</span><span class="o">);</span>
+</span><span class='line'>      <span class="n">gsm</span><span class="o">.</span><span class="na">doImFeelingLucky</span><span class="o">(</span><span class="s2">&quot;tellurium selenium DSL Testing&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once you have written the basic scenario of the test, then you can add assertions to the test to verify the behaviour of the application under test. To broaden the scope of your tests, you can replace the fixed values within the tests with the parameters and assert the behaviour of your application against different values. Tellurium provides the data driven testing out of the box.</p>
+
+<p><strong>Running Tests</strong></p>
+
+<p>There are multiple ways in which you can run Tellurium tests, some of them are listed below.</p>
+
+<ol>
+<li>Use the TestNG plugin for different IDEs to run the tests.</li>
+<li>Define a TestNG suite to run a group of tests.</li>
+<li>Use maven (mvn test) goal to run the tests.</li>
+<li>DSL executor, if your tests are in .dsl files.</li>
+<li>You can use ANT to define the tasks to run the tests and then use these tasks.</li>
+</ol>
+
+
+<p><strong>Analyzing Results</strong></p>
+
+<p>The results generated by Tellurium depends on the option you select for running the tests. In case of maven you will get a surefire report with the failures.</p>
+
+<p>TestNG plugin has its own mechanism of displaying the failed, passed and skipped tests.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Haroon Rasheed</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-06-02T00:00:00+01:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tellurium/'>tellurium</a>, <a class='category' href='/blog/categories/testng/'>testng</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haroonzone.github.io/blog/2009/06/tellurium-automation-process/" data-via="haroonzone" data-counturl="http://haroonzone.github.io/blog/2009/06/tellurium-automation-process/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2009/04/selenium-rc-and-pop-up-handling/" title="Previous Post: Selenium RC and Pop-up handling">&laquo; Selenium RC and Pop-up handling</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/04/funny-assertion/" title="Next Post: Funny Assertion!!!">Funny Assertion!!! &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Haroon Rasheed -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'haroonzone';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

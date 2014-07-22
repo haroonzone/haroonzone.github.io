@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Selenium RC and Pop-up Handling - Pragmatic QA</title>
+  <meta name="author" content="Haroon Rasheed">
+
+  
+  <meta name="description" content="Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://haroonzone.github.io/blog/2009/04/selenium-rc-and-pop-up-handling">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Pragmatic QA" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21154219-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pragmatic QA</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:haroonzone.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Selenium RC and Pop-up Handling</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-23T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
+
+<p>You can use Selenium RC to handle the pop ups. There are different methods available to deal with different types of pop ups. Following are some methods that I have used to handle JavaScript alerts using Selenium RC java client.</p>
+
+<pre><code>selenium.chooseCancelOnNextConfirmation();
+selenium.chooseOkOnNextConfirmation();
+</code></pre>
+
+<p>These method calls should be executed before the event that generates the JavaScript alerts. e.g. if clicking a Delete button pops up a java script alert with OK and Cancel button then your functions call would be.</p>
+
+<pre><code>selenium.chooseOkOnNextConfirmation();
+selenium.click(buttonLocator);
+</code></pre>
+
+<p>This would instruct selenium to click OK on the pop up that appears as a result of clicking the delete button. You can also assert on the pop up in the next statement. There is also a function available to verify that the alert is present.</p>
+
+<pre><code>isAlertPresent() - this would return a boolean (true/false) based on the alert existence
+</code></pre>
+
+<p>I have not used Selenium RC to verify the login dialogs but there are some functions available to handle pop ups like these.</p>
+
+<p>e.g The following code will use the selectWindow, windowFocus and close functions to work on a pop up/dialog</p>
+
+<pre><code>selenium.selectWindow("window id");
+selenium.windowFocus();
+selenium.type("username", "user name");
+selenium.type("password", "password");
+selenium.click("logingButton");
+selenium.waitForPageToLoad("30000");
+selenium.close();
+</code></pre>
+
+<p>Sometimes you might need to assert on the pop ups. e.g. you might want to assert that on deleting a button a pop up appears. You can use waitForPopUp to make sure that your test script waits for the pop up to appear and does not give you a time out error.</p>
+
+<p>assertEquals(&ldquo;Delete Confirmation&rdquo;, selenium.getAlert());
+selenium.waitForPopUp(&ldquo;deleteWindowLocator&rdquo;, &ldquo;30000&rdquo;);
+selenium.selectWindow(&ldquo;deleteWindowLocator&rdquo;);</p>
+
+<p>If you have custom defined pop-ups then you might want to use  Java Robot to do deal with custom define pop-ups. The Robot class is defined in java.awt package. You can control the mouse and keyboard events using Robot class. It is not an elegant solution but it works.</p>
+
+<p>You can also use some other tools (AutoIt) to keep listening for certain events such as SSL security certificates or download dialogs and click on OK whenever these type of pop up appear.</p>
+
+<p>There is another way of dealing with the file download pop ups. You can define a custom firefox profile and disable the file download pop up, so that it never appears during the test execution but still downloads the stuff on the hard disk which you can verify for testing purposes. You then launch selenium server with this custom firefox profile.</p>
+
+<p>There can be many ways to acheive the same task. e.g. you can define a JavaScript function to handle the pop ups and make that available to Selenium RC via user extensions. This is the beauty of open source tools that you have source code available to you and you can tweak things around according to your own requirements.</p>
+
+<p>I hope that it will help you in dealing with pop ups. Please feel free to comment and ask questions.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Haroon Rasheed</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-23T00:00:00+01:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/selenium/'>selenium</a>, <a class='category' href='/blog/categories/selenium-and-popups/'>selenium & popups</a>, <a class='category' href='/blog/categories/testng/'>testng</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haroonzone.github.io/blog/2009/04/selenium-rc-and-pop-up-handling/" data-via="haroonzone" data-counturl="http://haroonzone.github.io/blog/2009/04/selenium-rc-and-pop-up-handling/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse/" title="Previous Post: Setting up selenium &amp; TestNG using eclipse">&laquo; Setting up selenium &amp; TestNG using eclipse</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2009/06/tellurium-automation-process/" title="Next Post: Tellurium and test automation process">Tellurium and test automation process &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Haroon Rasheed -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'haroonzone';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Apache Commons Configuration to Manage Properties - Pragmatic QA</title>
+  <meta name="author" content="Haroon Rasheed">
+
+  
+  <meta name="description" content="Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Pragmatic QA" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Fjalla+One' rel='stylesheet' type='text/css'>
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-21154219-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   class="collapse-sidebar sidebar-footer" >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Pragmatic QA</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+  
+  
+  
+  
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:haroonzone.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Using Apache Commons Configuration to Manage Properties</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-28T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when you want to externalise the information such as application url, database hostname, database username etc.. These property files hold the information as a kay value pair and can be accessed when needed for the tests.</p>
+
+<p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
+
+<p>Once you have per environment property file then the next step is to make sure that you only hold information about the specific environment in the respective property file and do not repeat the same set of properties in all these files. For example the following three files represent three different environments where you want to run your tests, and each environment will have a distinct application url, a username , a password and we are assuming that these are Selenium or WebDriver functional tests and you want to usefor your tests. Therefore the property files hold the information about Sauce Labs.</p>
+
+<p><strong>functional-test-local.properties</strong></p>
+
+<pre><code>app.url = http://localhost:8080/
+username = local.username
+password = local.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-ci.properties</strong></p>
+
+<pre><code>app.url = http://ci.app.com/
+username = ci.username
+password = ci.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-staging.properties</strong></p>
+
+<pre><code>app.url = http://staging.app.com/
+username = staging.username
+password = staging.password
+sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
+
+<p>Many of the web frameworks provide this mechanism out of the box where you can use these mechanism to define the order of loading the properties. If your tests are part of the application under test then you can use this to manage the configuration required for the tests. But sometimes your tests are not part of the application, e.g. we recently started testing force.com based application using WebDriver. In this case the tests are not part of the application, and we did not want to add a dependency to the a big web framework for just managing our property files.</p>
+
+<p>came to our rescue, it provides a generic configuration interface which enables a Java application to read configuration data from a variety of sources.</p>
+
+<p>We can use the <em>CompositeConfiguration</em> and hence our new property files will look like as follows.</p>
+
+<p><strong>functional-test-common.properties</strong></p>
+
+<pre><code>sauce.url = http://ondemand.saucelabs.com:80/wd/hub
+sauce.username = sauceUsername
+sauce.client.secret = sauceSecretKey
+</code></pre>
+
+<p><strong>functional-test-local.properties</strong></p>
+
+<pre><code>app.url = http://localhost:8080/
+username = local.username
+password = local.password
+</code></pre>
+
+<p><strong>functional-test-ci.properties</strong></p>
+
+<pre><code>app.url = http://ci.app.com/
+username = ci.username
+password = ci.password
+</code></pre>
+
+<p><strong>functional-test-staging.properties</strong></p>
+
+<pre><code>app.url = http://staging.app.com/
+username = staging.username
+password = staging.password
+</code></pre>
+
+<p>We have added a new property file and as the name implies it will hold properties that are common across all the environments, in our case these are properties for Sauce Labs.</p>
+
+<p>This also provides the ability to override the predefined properties. The order of precedence while loading the properties is as follows.</p>
+
+<ol>
+<li>System Properties</li>
+<li>Environment Specific properties</li>
+<li>Common properties</li>
+</ol>
+
+
+<p>You can see the code at my GitHub repo (<a href="http://github.com/haroonzone/commons-configuration">http://github.com/haroonzone/commons-configuration</a>)</p>
+
+<p>I hope this helps you in organising the property files and will reduce the unnecessary duplication.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Authored by <span class="fn">Haroon Rasheed</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-28T00:00:00+01:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/commons-configuration/'>commons configuration</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/maven/'>maven</a>, <a class='category' href='/blog/categories/properties/'>properties</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/" data-via="haroonzone" data-counturl="http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/10/comparing-lists-with-hamcrest/" title="Previous Post: Comparing lists with hamcrest">&laquo; Comparing lists with hamcrest</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Haroon Rasheed -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Themed with <a href="https://github.com/lucaslew/whitespace">Whitespace</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'haroonzone';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
