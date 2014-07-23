@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Selenium & Popups | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/selenium-and-popups/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/selenium-and-popups/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Selenium RC and Pop-up Handling]]></title>
-    <link href="http://haroonzone.github.io/blog/2009/04/selenium-rc-and-pop-up-handling/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling/"/>
     <updated>2009-04-23T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2009/04/selenium-rc-and-pop-up-handling</id>
+    <id>http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling</id>
     <content type="html"><![CDATA[<p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
 
 <p>You can use Selenium RC to handle the pop ups. There are different methods available to deal with different types of pop ups. Following are some methods that I have used to handle JavaScript alerts using Selenium RC java client.</p>

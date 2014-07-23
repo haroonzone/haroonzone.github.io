@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Java | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Apache Commons Configuration to Manage Properties]]></title>
-    <link href="http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/"/>
     <updated>2012-10-28T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files</id>
+    <id>http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files</id>
     <content type="html"><![CDATA[<p>Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when you want to externalise the information such as application url, database hostname, database username etc.. These property files hold the information as a kay value pair and can be accessed when needed for the tests.</p>
 
 <p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
@@ -109,9 +109,9 @@ password = staging.password
   
   <entry>
     <title type="html"><![CDATA[Comparing Lists With Hamcrest]]></title>
-    <link href="http://haroonzone.github.io/blog/2012/10/comparing-lists-with-hamcrest/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest/"/>
     <updated>2012-10-05T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2012/10/comparing-lists-with-hamcrest</id>
+    <id>http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest</id>
     <content type="html"><![CDATA[<p>We have been using hamcrest matchers for some time now, and it is awesome to have more readable assertions in your tests. Recently we had a requirement to match lists for equality. This was simple enough, we used the following matcher to compare that the contents of the list are the same.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: ListMatcher1.java</span></figcaption>

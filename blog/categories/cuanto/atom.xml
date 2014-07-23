@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Cuanto | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/cuanto/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/cuanto/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
-    <link href="http://haroonzone.github.io/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
     <updated>2011-03-10T00:00:00+00:00</updated>
-    <id>http://haroonzone.github.io/blog/2011/03/track-your-tests-with-cuanto</id>
+    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
     <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
 
 <ul>

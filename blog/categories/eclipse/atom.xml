@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Eclipse | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/eclipse/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/eclipse/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Setting Up Selenium &amp; TestNG Using Eclipse]]></title>
-    <link href="http://haroonzone.github.io/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse/"/>
     <updated>2008-11-26T00:00:00+00:00</updated>
-    <id>http://haroonzone.github.io/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse</id>
+    <id>http://pragmaticqa.co.uk/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse</id>
     <content type="html"><![CDATA[<p>I found that it is not easy for the beginners to setup Selenium RC and run the GoogleTest.java example after downloading it from <a href="http://www.openqa.org">www.openqa.org</a> . The purpose of this post is to help beginners (new users to Selenium RC) help setting up Selenium RC with TestNG using Eclipse.</p>
 
 <p>This assumes that you have done the following steps.</p>

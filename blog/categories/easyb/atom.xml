@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Easyb | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/easyb/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/easyb/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Easyb Integration]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/"/>
     <updated>2010-07-13T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration</id>
     <content type="html"><![CDATA[<p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 

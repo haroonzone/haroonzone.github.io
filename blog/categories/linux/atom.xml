@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Linux | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[List Directory Structure in Unix/Linux]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/05/list-directory-structure-in-unixlinux/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux/"/>
     <updated>2010-05-12T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/05/list-directory-structure-in-unixlinux</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux</id>
     <content type="html"><![CDATA[<p>Today I found a really useful combination of commands to list the directory structure in Unix/Linux operating systems as follows.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: bash</span></figcaption>

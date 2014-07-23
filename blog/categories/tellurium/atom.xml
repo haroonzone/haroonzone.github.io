@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Tellurium | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/tellurium/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/tellurium/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Cucumber Feature Using Tellurium]]></title>
-    <link href="http://haroonzone.github.io/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
     <updated>2011-02-16T00:00:00+00:00</updated>
-    <id>http://haroonzone.github.io/blog/2011/02/running-cucumber-feature-using-tellurium</id>
+    <id>http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium</id>
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
@@ -1021,9 +1021,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Easyb Integration]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/"/>
     <updated>2010-07-13T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration</id>
     <content type="html"><![CDATA[<p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 
@@ -1201,9 +1201,9 @@ Tellurium Team</p>
   
   <entry>
     <title type="html"><![CDATA[Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
     <content type="html"><![CDATA[<p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
 
 <p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
@@ -1342,9 +1342,9 @@ TelluriumConfig.groovy
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Test Automation Process]]></title>
-    <link href="http://haroonzone.github.io/blog/2009/06/tellurium-automation-process/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2009/06/tellurium-automation-process/"/>
     <updated>2009-06-02T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2009/06/tellurium-automation-process</id>
+    <id>http://pragmaticqa.co.uk/blog/2009/06/tellurium-automation-process</id>
     <content type="html"><![CDATA[<p>Today I will focus on how Tellurium fits into test automation of a large scale project and how easy and effective it is to use Tellurium.
 Test automation with any testing tool involves following main stages.</p>
 

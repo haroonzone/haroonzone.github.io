@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Assertions | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/assertions/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/assertions/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Funny Assertion!!!]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/04/funny-assertion/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/04/funny-assertion/"/>
     <updated>2010-04-20T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/04/funny-assertion</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/04/funny-assertion</id>
     <content type="html"><![CDATA[<p>Today I came across a piece of code while debugging some tests, that I thought of sharing with everyone. It was not easy to select a title for this post, but I am going to stick with “Funny Assertion”.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: java</span></figcaption>

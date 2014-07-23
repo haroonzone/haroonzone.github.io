@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Maven | Pragmatic QA]]></title>
-  <link href="http://haroonzone.github.io/blog/categories/maven/atom.xml" rel="self"/>
-  <link href="http://haroonzone.github.io/"/>
-  <updated>2014-07-23T01:04:07+01:00</updated>
-  <id>http://haroonzone.github.io/</id>
+  <link href="http://pragmaticqa.co.uk/blog/categories/maven/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-23T10:26:18+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Apache Commons Configuration to Manage Properties]]></title>
-    <link href="http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/"/>
     <updated>2012-10-28T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2012/10/using-apache-commons-configuration-to-manage-property-files</id>
+    <id>http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files</id>
     <content type="html"><![CDATA[<p>Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when you want to externalise the information such as application url, database hostname, database username etc.. These property files hold the information as a kay value pair and can be accessed when needed for the tests.</p>
 
 <p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
@@ -109,9 +109,9 @@ password = staging.password
   
   <entry>
     <title type="html"><![CDATA[Running Cucumber Feature Using Tellurium]]></title>
-    <link href="http://haroonzone.github.io/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
     <updated>2011-02-16T00:00:00+00:00</updated>
-    <id>http://haroonzone.github.io/blog/2011/02/running-cucumber-feature-using-tellurium</id>
+    <id>http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium</id>
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
@@ -1115,9 +1115,9 @@ password = staging.password
   
   <entry>
     <title type="html"><![CDATA[BDD Using Selenium 2, Maven and Cucumber-jvm]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/"/>
     <updated>2010-11-18T00:00:00+00:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber</id>
     <content type="html"><![CDATA[<p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
 
 <p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>
@@ -1429,9 +1429,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Easyb Integration]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/"/>
     <updated>2010-07-13T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/07/tellurium-and-easyb-integration</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration</id>
     <content type="html"><![CDATA[<p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 
@@ -1609,9 +1609,9 @@ Tellurium Team</p>
   
   <entry>
     <title type="html"><![CDATA[Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium]]></title>
-    <link href="http://haroonzone.github.io/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://haroonzone.github.io/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
+    <id>http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
     <content type="html"><![CDATA[<p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
 
 <p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
