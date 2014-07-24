@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Track Your Tests | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/track-your-tests/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <link href="http://pragmaticqa.co.uk/track-your-tests-with-cuanto"/>
     <updated>2011-03-10T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
+    <id>http://pragmaticqa.co.uk/track-your-tests-with-cuanto</id>
     <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
 
 <ul>

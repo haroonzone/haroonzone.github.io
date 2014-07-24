@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Selenium | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/selenium/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <link href="http://pragmaticqa.co.uk/track-your-tests-with-cuanto"/>
     <updated>2011-03-10T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
+    <id>http://pragmaticqa.co.uk/track-your-tests-with-cuanto</id>
     <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
 
 <ul>
@@ -63,9 +63,9 @@ You can find out more about Cuanto on their website. They are working on a new C
   
   <entry>
     <title type="html"><![CDATA[BDD Using Selenium 2, Maven and Cucumber-jvm]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/"/>
+    <link href="http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber"/>
     <updated>2010-11-18T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber</id>
+    <id>http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber</id>
     <content type="html"><![CDATA[<p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
 
 <p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>
@@ -380,9 +380,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
   
   <entry>
     <title type="html"><![CDATA[AbstractTestNGSpringContextTests and TestNG @BeforeSuite]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/"/>
+    <link href="http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite"/>
     <updated>2010-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite</id>
+    <id>http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite</id>
     <content type="html"><![CDATA[<p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
 
 <p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
@@ -417,9 +417,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
   
   <entry>
     <title type="html"><![CDATA[Setting Up a Test Project With Selenium, TestNG and Maven]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/"/>
+    <link href="http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven</id>
+    <id>http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven</id>
     <content type="html"><![CDATA[<p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
 
 <p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
@@ -748,9 +748,9 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
   
   <entry>
     <title type="html"><![CDATA[Selenium RC and Pop-up Handling]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling/"/>
+    <link href="http://pragmaticqa.co.uk/selenium-rc-and-pop-up-handling/"/>
     <updated>2009-04-23T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling</id>
+    <id>http://pragmaticqa.co.uk/selenium-rc-and-pop-up-handling</id>
     <content type="html"><![CDATA[<p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
 
 <!-- more -->

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Assertions | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/assertions/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Funny Assertion!!!]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/04/funny-assertion/"/>
+    <link href="http://pragmaticqa.co.uk/funny-assertion"/>
     <updated>2010-04-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/04/funny-assertion</id>
+    <id>http://pragmaticqa.co.uk/funny-assertion</id>
     <content type="html"><![CDATA[<p>Today I came across a piece of code while debugging some tests, that I thought of sharing with everyone. It was not easy to select a title for this post, but I am going to stick with “Funny Assertion”.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: java</span></figcaption>

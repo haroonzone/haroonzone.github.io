@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cucumber | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/cucumber/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Cucumber Feature Using Tellurium]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/running-cucumber-feature-using-tellurium"/>
     <updated>2011-02-16T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium</id>
+    <id>http://pragmaticqa.co.uk/running-cucumber-feature-using-tellurium</id>
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
@@ -1024,9 +1024,9 @@
   
   <entry>
     <title type="html"><![CDATA[BDD Using Selenium 2, Maven and Cucumber-jvm]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/"/>
+    <link href="http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber"/>
     <updated>2010-11-18T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber</id>
+    <id>http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber</id>
     <content type="html"><![CDATA[<p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
 
 <p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>

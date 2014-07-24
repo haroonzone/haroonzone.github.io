@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Easyb | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/easyb/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Easyb Integration]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/"/>
+    <link href="http://pragmaticqa.co.uk/tellurium-and-easyb-integration"/>
     <updated>2010-07-13T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration</id>
+    <id>http://pragmaticqa.co.uk/tellurium-and-easyb-integration</id>
     <content type="html"><![CDATA[<p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 

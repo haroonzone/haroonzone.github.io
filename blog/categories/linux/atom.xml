@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[List Directory Structure in Unix/Linux]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux/"/>
+    <link href="http://pragmaticqa.co.uk/list-directory-structure-in-unixlinux"/>
     <updated>2010-05-12T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux</id>
+    <id>http://pragmaticqa.co.uk/list-directory-structure-in-unixlinux</id>
     <content type="html"><![CDATA[<p>Today I found a really useful combination of commands to list the directory structure in Unix/Linux operating systems as follows.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: bash</span></figcaption>

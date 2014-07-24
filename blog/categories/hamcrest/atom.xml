@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hamcrest | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/hamcrest/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Comparing Lists With Hamcrest]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest/"/>
+    <link href="http://pragmaticqa.co.uk/comparing-lists-with-hamcrest"/>
     <updated>2012-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest</id>
+    <id>http://pragmaticqa.co.uk/comparing-lists-with-hamcrest</id>
     <content type="html"><![CDATA[<p>We have been using hamcrest matchers for some time now, and it is awesome to have more readable assertions in your tests. Recently we had a requirement to match lists for equality. This was simple enough, we used the following matcher to compare that the contents of the list are the same.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: ListMatcher1.java</span></figcaption>
@@ -114,9 +114,9 @@ at com.ft.specs.ListTests.listTestsWithoutOrder(ListTests.java:32)
   
   <entry>
     <title type="html"><![CDATA[Use of Hamcrest for Test Assertions]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/"/>
+    <link href="http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions"/>
     <updated>2010-09-04T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions</id>
+    <id>http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions</id>
     <content type="html"><![CDATA[<p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
 
 <pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");

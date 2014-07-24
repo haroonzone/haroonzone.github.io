@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Spring | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/spring/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[AbstractTestNGSpringContextTests and TestNG @BeforeSuite]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/"/>
+    <link href="http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite"/>
     <updated>2010-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite</id>
+    <id>http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite</id>
     <content type="html"><![CDATA[<p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
 
 <p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>

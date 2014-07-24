@@ -4,7 +4,7 @@
   <title><![CDATA[Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Apache Commons Configuration to Manage Properties]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/"/>
+    <link href="http://pragmaticqa.co.uk/using-apache-commons-configuration-to-manage-property-files"/>
     <updated>2012-10-28T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files</id>
+    <id>http://pragmaticqa.co.uk/using-apache-commons-configuration-to-manage-property-files</id>
     <content type="html"><![CDATA[<p>Property files or environment configuration files are an essential part of any system. For test automation, these files play an important role when you want to externalise the information such as application url, database hostname, database username etc.. These property files hold the information as a kay value pair and can be accessed when needed for the tests.</p>
 
 <p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
@@ -112,9 +112,9 @@ password = staging.password
   
   <entry>
     <title type="html"><![CDATA[Comparing Lists With Hamcrest]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest/"/>
+    <link href="http://pragmaticqa.co.uk/comparing-lists-with-hamcrest"/>
     <updated>2012-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest</id>
+    <id>http://pragmaticqa.co.uk/comparing-lists-with-hamcrest</id>
     <content type="html"><![CDATA[<p>We have been using hamcrest matchers for some time now, and it is awesome to have more readable assertions in your tests. Recently we had a requirement to match lists for equality. This was simple enough, we used the following matcher to compare that the contents of the list are the same.</p>
 
 <figure class='code'><figcaption><span>lang: ListMatcher1.java</span></figcaption>
@@ -207,9 +207,9 @@ at com.ft.specs.ListTests.listTestsWithoutOrder(ListTests.java:32)
   
   <entry>
     <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <link href="http://pragmaticqa.co.uk/track-your-tests-with-cuanto"/>
     <updated>2011-03-10T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
+    <id>http://pragmaticqa.co.uk/track-your-tests-with-cuanto</id>
     <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
 
 <ul>
@@ -255,9 +255,9 @@ You can find out more about Cuanto on their website. They are working on a new C
   
   <entry>
     <title type="html"><![CDATA[Running Cucumber Feature Using Tellurium]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/running-cucumber-feature-using-tellurium"/>
     <updated>2011-02-16T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium</id>
+    <id>http://pragmaticqa.co.uk/running-cucumber-feature-using-tellurium</id>
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
@@ -1226,9 +1226,9 @@ You can find out more about Cuanto on their website. They are working on a new C
   
   <entry>
     <title type="html"><![CDATA[BDD Using Selenium 2, Maven and Cucumber-jvm]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/"/>
+    <link href="http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber"/>
     <updated>2010-11-18T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber</id>
+    <id>http://pragmaticqa.co.uk/bdd-using-selenium-2-maven-and-cucumber</id>
     <content type="html"><![CDATA[<p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
 
 <p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>
@@ -1537,9 +1537,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
   
   <entry>
     <title type="html"><![CDATA[AbstractTestNGSpringContextTests and TestNG @BeforeSuite]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/"/>
+    <link href="http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite"/>
     <updated>2010-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite</id>
+    <id>http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite</id>
     <content type="html"><![CDATA[<p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
 
 <p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
@@ -1569,9 +1569,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
   
   <entry>
     <title type="html"><![CDATA[Use of Hamcrest for Test Assertions]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/"/>
+    <link href="http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions"/>
     <updated>2010-09-04T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions</id>
+    <id>http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions</id>
     <content type="html"><![CDATA[<p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
 
 <pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
@@ -1595,9 +1595,9 @@ assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Easyb Integration]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/"/>
+    <link href="http://pragmaticqa.co.uk/tellurium-and-easyb-integration"/>
     <updated>2010-07-13T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration</id>
+    <id>http://pragmaticqa.co.uk/tellurium-and-easyb-integration</id>
     <content type="html"><![CDATA[<p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 
@@ -1762,9 +1762,9 @@ Tellurium Team</p>
   
   <entry>
     <title type="html"><![CDATA[Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
+    <id>http://pragmaticqa.co.uk/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
     <content type="html"><![CDATA[<p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
 
 <p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
@@ -1901,9 +1901,9 @@ TelluriumConfig.groovy
   
   <entry>
     <title type="html"><![CDATA[Setting Up a Test Project With Selenium, TestNG and Maven]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/"/>
+    <link href="http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven</id>
+    <id>http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven</id>
     <content type="html"><![CDATA[<p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
 
 <p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
@@ -2220,9 +2220,9 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
   
   <entry>
     <title type="html"><![CDATA[List Directory Structure in Unix/Linux]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux/"/>
+    <link href="http://pragmaticqa.co.uk/list-directory-structure-in-unixlinux"/>
     <updated>2010-05-12T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/list-directory-structure-in-unixlinux</id>
+    <id>http://pragmaticqa.co.uk/list-directory-structure-in-unixlinux</id>
     <content type="html"><![CDATA[<p>Today I found a really useful combination of commands to list the directory structure in Unix/Linux operating systems as follows.</p>
 
 <figure class='code'><figcaption><span>lang: bash</span></figcaption>
@@ -2287,9 +2287,9 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
   
   <entry>
     <title type="html"><![CDATA[Funny Assertion!!!]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/04/funny-assertion/"/>
+    <link href="http://pragmaticqa.co.uk/funny-assertion"/>
     <updated>2010-04-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/04/funny-assertion</id>
+    <id>http://pragmaticqa.co.uk/funny-assertion</id>
     <content type="html"><![CDATA[<p>Today I came across a piece of code while debugging some tests, that I thought of sharing with everyone. It was not easy to select a title for this post, but I am going to stick with “Funny Assertion”.</p>
 
 <figure class='code'><figcaption><span>lang: java</span></figcaption>
@@ -2319,9 +2319,9 @@ Actual   :3
   
   <entry>
     <title type="html"><![CDATA[Tellurium and Test Automation Process]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2009/06/tellurium-automation-process/"/>
+    <link href="http://pragmaticqa.co.uk/tellurium-automation-process"/>
     <updated>2009-06-02T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2009/06/tellurium-automation-process</id>
+    <id>http://pragmaticqa.co.uk/tellurium-automation-process</id>
     <content type="html"><![CDATA[<p>Today I will focus on how Tellurium fits into test automation of a large scale project and how easy and effective it is to use Tellurium.
 Test automation with any testing tool involves following main stages.</p>
 
@@ -2512,9 +2512,9 @@ TelluriumConfig.groovy
   
   <entry>
     <title type="html"><![CDATA[Selenium RC and Pop-up Handling]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling/"/>
+    <link href="http://pragmaticqa.co.uk/selenium-rc-and-pop-up-handling/"/>
     <updated>2009-04-23T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling</id>
+    <id>http://pragmaticqa.co.uk/selenium-rc-and-pop-up-handling</id>
     <content type="html"><![CDATA[<p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
 
 <!-- more -->
@@ -2570,9 +2570,9 @@ selenium.selectWindow(&ldquo;deleteWindowLocator&rdquo;);</p>
   
   <entry>
     <title type="html"><![CDATA[Setting Up Selenium &amp; TestNG Using Eclipse]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse/"/>
+    <link href="http://pragmaticqa.co.uk/setting-up-selenium-rc-testng-using-eclipse"/>
     <updated>2008-11-26T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2008/11/setting-up-selenium-rc-testng-using-eclipse</id>
+    <id>http://pragmaticqa.co.uk/setting-up-selenium-rc-testng-using-eclipse</id>
     <content type="html"><![CDATA[<p>I found that it is not easy for the beginners to setup Selenium RC and run the GoogleTest.java example after downloading it from <a href="http://www.openqa.org">www.openqa.org</a> . The purpose of this post is to help beginners (new users to Selenium RC) help setting up Selenium RC with TestNG using Eclipse.</p>
 
 <p>This assumes that you have done the following steps.</p>

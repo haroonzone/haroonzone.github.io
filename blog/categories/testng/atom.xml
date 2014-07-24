@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Testng | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/testng/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T15:27:14+01:00</updated>
+  <updated>2014-07-24T16:46:10+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <link href="http://pragmaticqa.co.uk/track-your-tests-with-cuanto"/>
     <updated>2011-03-10T00:00:00+00:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
+    <id>http://pragmaticqa.co.uk/track-your-tests-with-cuanto</id>
     <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
 
 <ul>
@@ -63,9 +63,9 @@ You can find out more about Cuanto on their website. They are working on a new C
   
   <entry>
     <title type="html"><![CDATA[AbstractTestNGSpringContextTests and TestNG @BeforeSuite]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/"/>
+    <link href="http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite"/>
     <updated>2010-10-05T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite</id>
+    <id>http://pragmaticqa.co.uk/abstracttestngspringcontexttests-and-testng-beforesuite</id>
     <content type="html"><![CDATA[<p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
 
 <p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
@@ -100,9 +100,9 @@ You can find out more about Cuanto on their website. They are working on a new C
   
   <entry>
     <title type="html"><![CDATA[Use of Hamcrest for Test Assertions]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/"/>
+    <link href="http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions"/>
     <updated>2010-09-04T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions</id>
+    <id>http://pragmaticqa.co.uk/use-of-hamcrest-for-test-assertions</id>
     <content type="html"><![CDATA[<p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
 
 <pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
@@ -126,9 +126,9 @@ assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
   
   <entry>
     <title type="html"><![CDATA[Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/"/>
+    <link href="http://pragmaticqa.co.uk/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
+    <id>http://pragmaticqa.co.uk/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium</id>
     <content type="html"><![CDATA[<p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
 
 <p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
@@ -270,9 +270,9 @@ TelluriumConfig.groovy
   
   <entry>
     <title type="html"><![CDATA[Setting Up a Test Project With Selenium, TestNG and Maven]]></title>
-    <link href="http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/"/>
+    <link href="http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven"/>
     <updated>2010-05-20T00:00:00+01:00</updated>
-    <id>http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven</id>
+    <id>http://pragmaticqa.co.uk/setting-up-a-test-project-with-selenium-testng-and-maven</id>
     <content type="html"><![CDATA[<p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
 
 <p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
