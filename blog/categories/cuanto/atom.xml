@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cuanto | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/cuanto/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -27,6 +27,9 @@
 
 
 <p>How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?</p>
+
+<!-- more -->
+
 
 <p>In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements.</p>
 

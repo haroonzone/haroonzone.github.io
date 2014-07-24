@@ -4,7 +4,7 @@
   <title><![CDATA[Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -53,6 +53,9 @@ sauce.url = http://ondemand.saucelabs.com:80/wd/hub
 sauce.username = sauceUsername
 sauce.client.secret = sauceSecretKey
 </code></pre>
+
+<!-- more -->
+
 
 <p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
 
@@ -148,6 +151,11 @@ password = staging.password
 </span></code></pre></td></tr></table></div></figure>
 
 
+
+
+<!-- more -->
+
+
 <p>It worked nicely but then like anything in the project lifecycle, our requirement changed and we had to assert the contents of the two lists where the order does not matter, at this time we were using version 1.1 of Hamcrest. After a bit of digging I found that the new version (1.3) of Hamcrest has some new matchers specifically for collections, and changing our tests to following worked like a charm.</p>
 
 <figure class='code'><figcaption><span>lang: ListMatcher2.java</span></figcaption>
@@ -212,6 +220,9 @@ at com.ft.specs.ListTests.listTestsWithoutOrder(ListTests.java:32)
 
 <p>How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?</p>
 
+<!-- more -->
+
+
 <p>In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements.</p>
 
 <p>Also Continuous integration tools are great and generate very good HTML reports but those HTML reports are tied to a build. It is not easy to navigate through each build and open up the test report to see the history of a particular test method, let alone verify the reason for the test failure.</p>
@@ -250,6 +261,9 @@ You can find out more about Cuanto on their website. They are working on a new C
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
+
+<!-- more -->
+
 
 <p>Following is my pom.xml</p>
 
@@ -1586,6 +1600,9 @@ easyb is a behavior driven development framework for the Java platform. By using
 
 <p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
 
+<!-- more -->
+
+
 <p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
 
 <figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
@@ -1753,6 +1770,9 @@ Tellurium Team</p>
 
 <p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
 
+<!-- more -->
+
+
 <p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
 This should go in your_home/.m2/settings.xml file:</p>
 
@@ -1888,6 +1908,9 @@ TelluriumConfig.groovy
 <p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
 
 <p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<!-- more -->
+
 
 <p>To create a maven project, execute the following.
   mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>
@@ -2307,6 +2330,9 @@ Test automation with any testing tool involves following main stages.</p>
 
 <p>At this point you should define clear objectives for test automation, you also need to analyse the application under test and determine that which objects and operations are used by the business processes that you are going to automate. You also need to define the data set up and tear down so that your tests starts from a known state of the database and after the test execution tear down the data that it has created during test execution, so that you can run these tests on different environments. This would also ensure that your tests do not leave the database in inconsistent state.</p>
 
+<!-- more -->
+
+
 <p>There are many techniques available to do the database operations. I have been using DBUnit for this purposes and it is really a good open source tool to do the job.</p>
 
 <p>The next step is to decide on organizing the tests. We have decided on using Tellurium as the tool of our choice for our web application, because Tellurium provides an easy and practical way to organize the web UI tests out of the box and we can focus on writing the new tests using the features available. Tellurium is a generic test automation framework that can be utilized on any web application test automation project. It means that we do not have to worry about writing a new framework for every application/project.</p>
@@ -2488,6 +2514,9 @@ TelluriumConfig.groovy
     <id>http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling</id>
     <content type="html"><![CDATA[<p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
 
+<!-- more -->
+
+
 <p>You can use Selenium RC to handle the pop ups. There are different methods available to deal with different types of pop ups. Following are some methods that I have used to handle JavaScript alerts using Selenium RC java client.</p>
 
 <pre><code>selenium.chooseCancelOnNextConfirmation();
@@ -2554,6 +2583,9 @@ selenium.selectWindow(&ldquo;deleteWindowLocator&rdquo;);</p>
 <p>Install TestNG plugin for eclipse (<a href="http://testng.org/doc/download.html">http://testng.org/doc/download.html</a>)</p>
 
 <p>Please follow the step by step instructions to setup the test environment.</p>
+
+<!-- more -->
+
 
 <p>Launch Eclipse, you can setup any directory as your default workspace. For this example, my default workspace is as shown below.</p>
 

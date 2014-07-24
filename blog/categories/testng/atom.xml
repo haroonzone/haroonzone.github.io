@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Testng | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/testng/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -27,6 +27,9 @@
 
 
 <p>How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?</p>
+
+<!-- more -->
+
 
 <p>In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements.</p>
 
@@ -133,6 +136,9 @@ assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
 <p>We will be creating a new <a href="http://code.google.com/p/aost">Tellurium</a> project by making use of the Tellurium TestNG Archetype. This is an easy and quick way to get yourself started with <a href="http://code.google.com/p/aost">Tellurium</a>.</p>
 
 <p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
+
+<!-- more -->
+
 
 <p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
 This should go in your_home/.m2/settings.xml file:</p>
@@ -274,6 +280,9 @@ TelluriumConfig.groovy
 <p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
 
 <p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<!-- more -->
+
 
 <p>To create a maven project, execute the following.
   mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>

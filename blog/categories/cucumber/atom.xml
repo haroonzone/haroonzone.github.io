@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Cucumber | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/cucumber/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
+
+<!-- more -->
+
 
 <p>Following is my pom.xml</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Selenium & Popups | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/selenium-and-popups/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -19,6 +19,9 @@
     <updated>2009-04-23T00:00:00+01:00</updated>
     <id>http://pragmaticqa.co.uk/blog/2009/04/selenium-rc-and-pop-up-handling</id>
     <content type="html"><![CDATA[<p>Recently I have been asked by one of the readers about the pop-up handling in Selenium in general and Selenium RC in specific. As per my understanding Selenium IDE does not support recording on the pop-ups because If the popup is a new window, i.e., not in the html body of the main winodw, Selenium IDE, Dom Inspector, and other Firefox plugins do not work. The reason is there are multiple document variables to handle and it might not be a good idea to record any popup window which make the event listener more complicated.</p>
+
+<!-- more -->
+
 
 <p>You can use Selenium RC to handle the pop ups. There are different methods available to deal with different types of pop ups. Following are some methods that I have used to handle JavaScript alerts using Selenium RC java client.</p>
 

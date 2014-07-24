@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tellurium | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/tellurium/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
+
+<!-- more -->
+
 
 <p>Following is my pom.xml</p>
 
@@ -1029,6 +1032,9 @@ easyb is a behavior driven development framework for the Java platform. By using
 
 <p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
 
+<!-- more -->
+
+
 <p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
@@ -1212,6 +1218,9 @@ Tellurium Team</p>
 
 <p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
 
+<!-- more -->
+
+
 <p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
 This should go in your_home/.m2/settings.xml file:</p>
 
@@ -1355,6 +1364,9 @@ Test automation with any testing tool involves following main stages.</p>
 <p>As a test automation engineer, this is the foremost thing you would do. We should treat any test automation project in the same way as we would treat a development project. We should keep all aspects of software engineering in mind such as Readability, Re usability, Modularity and Maintainability.</p>
 
 <p>At this point you should define clear objectives for test automation, you also need to analyse the application under test and determine that which objects and operations are used by the business processes that you are going to automate. You also need to define the data set up and tear down so that your tests starts from a known state of the database and after the test execution tear down the data that it has created during test execution, so that you can run these tests on different environments. This would also ensure that your tests do not leave the database in inconsistent state.</p>
+
+<!-- more -->
+
 
 <p>There are many techniques available to do the database operations. I have been using DBUnit for this purposes and it is really a good open source tool to do the job.</p>
 

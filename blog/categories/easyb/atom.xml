@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Easyb | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/easyb/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -22,6 +22,9 @@
 easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
 
 <p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
+
+<!-- more -->
+
 
 <p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
 

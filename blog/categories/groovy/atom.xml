@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Groovy | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/groovy/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>Recently there was a question posted to the Tellurium user group about support for any of the BDD framework. We already have provided the support of running easyb stories as Tellurium tests. As I worked on the Cucumber and Selenium integration, I was intrigued to try using Cucumber with Tellurium. It turned out to be a pretty straight forward job.</p>
 
 <p>I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.</p>
+
+<!-- more -->
+
 
 <p>Following is my pom.xml</p>
 
@@ -1029,6 +1032,9 @@ easyb is a behavior driven development framework for the Java platform. By using
 
 <p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
 
+<!-- more -->
+
+
 <p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
 
 <p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
@@ -1211,6 +1217,9 @@ Tellurium Team</p>
 <p>We will be creating a new <a href="http://code.google.com/p/aost">Tellurium</a> project by making use of the Tellurium TestNG Archetype. This is an easy and quick way to get yourself started with <a href="http://code.google.com/p/aost">Tellurium</a>.</p>
 
 <p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
+
+<!-- more -->
+
 
 <p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
 This should go in your_home/.m2/settings.xml file:</p>

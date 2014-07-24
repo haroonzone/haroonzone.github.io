@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Properties | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/properties/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -53,6 +53,9 @@ sauce.url = http://ondemand.saucelabs.com:80/wd/hub
 sauce.username = sauceUsername
 sauce.client.secret = sauceSecretKey
 </code></pre>
+
+<!-- more -->
+
 
 <p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Eclipse | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/eclipse/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -31,6 +31,9 @@
 <p>Install TestNG plugin for eclipse (<a href="http://testng.org/doc/download.html">http://testng.org/doc/download.html</a>)</p>
 
 <p>Please follow the step by step instructions to setup the test environment.</p>
+
+<!-- more -->
+
 
 <p>Launch Eclipse, you can setup any directory as your default workspace. For this example, my default workspace is as shown below.</p>
 

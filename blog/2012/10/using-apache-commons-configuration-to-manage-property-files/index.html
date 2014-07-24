@@ -150,6 +150,9 @@ sauce.username = sauceUsername
 sauce.client.secret = sauceSecretKey
 </code></pre>
 
+<!-- more -->
+
+
 <p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
 
 <p>Many of the web frameworks provide this mechanism out of the box where you can use these mechanism to define the order of loading the properties. If your tests are part of the application under test then you can use this to manage the configuration required for the tests. But sometimes your tests are not part of the application, e.g. we recently started testing force.com based application using WebDriver. In this case the tests are not part of the application, and we did not want to add a dependency to the a big web framework for just managing our property files.</p>

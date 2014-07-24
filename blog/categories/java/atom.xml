@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -53,6 +53,9 @@ sauce.url = http://ondemand.saucelabs.com:80/wd/hub
 sauce.username = sauceUsername
 sauce.client.secret = sauceSecretKey
 </code></pre>
+
+<!-- more -->
+
 
 <p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
 
@@ -150,6 +153,9 @@ password = staging.password
 </span><span class='line'>
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!-- more -->
+
 
 <p>It worked nicely but then like anything in the project lifecycle, our requirement changed and we had to assert the contents of the two lists where the order does not matter, at this time we were using version 1.1 of Hamcrest. After a bit of digging I found that the new version (1.3) of Hamcrest has some new matchers specifically for collections, and changing our tests to following worked like a charm.</p>
 

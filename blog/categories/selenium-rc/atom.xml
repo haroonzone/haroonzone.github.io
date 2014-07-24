@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Selenium-rc | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/selenium-rc/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T13:17:31+01:00</updated>
+  <updated>2014-07-24T14:35:00+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -339,6 +339,9 @@ INFO] You can implement step definitions for undefined steps with these snippets
 <p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
 
 <p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<!-- more -->
+
 
 <p>To create a maven project, execute the following.
   mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>
