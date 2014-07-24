@@ -121,36 +121,6 @@
 
 <p>Once you have per environment property file then the next step is to make sure that you only hold information about the specific environment in the respective property file and do not repeat the same set of properties in all these files. For example the following three files represent three different environments where you want to run your tests, and each environment will have a distinct application url, a username , a password and we are assuming that these are Selenium or WebDriver functional tests and you want to usefor your tests. Therefore the property files hold the information about Sauce Labs.</p>
 
-<p><strong>functional-test-local.properties</strong></p>
-
-<pre><code>app.url = http://localhost:8080/
-username = local.username
-password = local.password
-sauce.url = http://ondemand.saucelabs.com:80/wd/hub
-sauce.username = sauceUsername
-sauce.client.secret = sauceSecretKey
-</code></pre>
-
-<p><strong>functional-test-ci.properties</strong></p>
-
-<pre><code>app.url = http://ci.app.com/
-username = ci.username
-password = ci.password
-sauce.url = http://ondemand.saucelabs.com:80/wd/hub
-sauce.username = sauceUsername
-sauce.client.secret = sauceSecretKey
-</code></pre>
-
-<p><strong>functional-test-staging.properties</strong></p>
-
-<pre><code>app.url = http://staging.app.com/
-username = staging.username
-password = staging.password
-sauce.url = http://ondemand.saucelabs.com:80/wd/hub
-sauce.username = sauceUsername
-sauce.client.secret = sauceSecretKey
-</code></pre>
-
 </div>
   
   

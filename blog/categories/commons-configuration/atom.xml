@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Commons Configuration | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/commons-configuration/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T14:35:00+01:00</updated>
+  <updated>2014-07-24T14:36:05+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -23,6 +23,9 @@
 <p>These are also vital when you want to run the tests against different environments, in this case you can have per environment property file and when running the tests you can pass an argument to load the specific property file so that the information about the environment is available to the tests.</p>
 
 <p>Once you have per environment property file then the next step is to make sure that you only hold information about the specific environment in the respective property file and do not repeat the same set of properties in all these files. For example the following three files represent three different environments where you want to run your tests, and each environment will have a distinct application url, a username , a password and we are assuming that these are Selenium or WebDriver functional tests and you want to usefor your tests. Therefore the property files hold the information about Sauce Labs.</p>
+
+<!-- more -->
+
 
 <p><strong>functional-test-local.properties</strong></p>
 
@@ -53,9 +56,6 @@ sauce.url = http://ondemand.saucelabs.com:80/wd/hub
 sauce.username = sauceUsername
 sauce.client.secret = sauceSecretKey
 </code></pre>
-
-<!-- more -->
-
 
 <p>When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.</p>
 
