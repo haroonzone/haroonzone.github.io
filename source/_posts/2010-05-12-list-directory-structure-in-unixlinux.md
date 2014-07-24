@@ -2,7 +2,8 @@
 title: List directory structure in Unix/Linux
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/05/list-directory-structure-in-unixlinux/
+permalink: /list-directory-structure-in-unixlinux
+comments: true
 categories:
   - directory structure
   - linux

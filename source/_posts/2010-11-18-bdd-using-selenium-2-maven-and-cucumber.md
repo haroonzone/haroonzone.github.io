@@ -2,7 +2,8 @@
 title: BDD using Selenium 2, Maven and cucumber-jvm
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/
+permalink: /bdd-using-selenium-2-maven-and-cucumber
+comments: true
 categories:
   - bdd
   - cucumber

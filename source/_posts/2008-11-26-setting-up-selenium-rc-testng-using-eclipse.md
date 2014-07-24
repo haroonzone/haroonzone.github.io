@@ -2,7 +2,8 @@
 title: 'Setting up selenium &amp; TestNG using eclipse'
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2008/11/setting-up-selenium-rc-testng-using-eclipse/
+permalink: /setting-up-selenium-rc-testng-using-eclipse
+comments: true
 categories:
   - selenium
   - testng

@@ -2,7 +2,8 @@
 title: Using apache commons configuration to manage properties
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2012/10/using-apache-commons-configuration-to-manage-property-files/
+permalink: /using-apache-commons-configuration-to-manage-property-files
+comments: true
 categories:
   - commons configuration
   - maven

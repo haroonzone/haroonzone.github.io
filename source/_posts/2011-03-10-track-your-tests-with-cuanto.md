@@ -2,7 +2,8 @@
 title: Track your tests with Cuanto
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2011/03/track-your-tests-with-cuanto/
+permalink: /track-your-tests-with-cuanto
+comments: true
 categories:
   - cuanto
   - testng

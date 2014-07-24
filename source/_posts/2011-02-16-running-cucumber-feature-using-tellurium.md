@@ -2,7 +2,8 @@
 title: Running cucumber feature using Tellurium
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2011/02/running-cucumber-feature-using-tellurium/
+permalink: /running-cucumber-feature-using-tellurium
+comments: true
 categories:
   - bdd
   - cucumber

@@ -2,7 +2,8 @@
 title: Comparing lists with hamcrest
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2012/10/comparing-lists-with-hamcrest/
+permalink: /comparing-lists-with-hamcrest
+comments: true
 categories:
   - hamcrest
   - java

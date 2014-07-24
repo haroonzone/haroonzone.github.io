@@ -2,7 +2,8 @@
 title: Tellurium and test automation process
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2009/06/tellurium-automation-process/
+permalink: /tellurium-automation-process
+comments: true
 categories:
   - tellurium
   - TestNG

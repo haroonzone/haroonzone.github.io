@@ -2,7 +2,8 @@
 title: Funny Assertion!!!
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/04/funny-assertion/
+permalink: /funny-assertion
+comments: true
 categories:
   - assertions
 ---

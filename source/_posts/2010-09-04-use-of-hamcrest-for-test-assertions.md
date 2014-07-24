@@ -2,7 +2,8 @@
 title: Use of hamcrest for test assertions
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/09/use-of-hamcrest-for-test-assertions/
+permalink: /use-of-hamcrest-for-test-assertions
+comments: true
 categories:
   - hamcrest
   - testng

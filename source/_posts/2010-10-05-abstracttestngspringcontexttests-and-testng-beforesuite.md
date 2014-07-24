@@ -2,7 +2,8 @@
 title: AbstractTestNGSpringContextTests and TestNG @BeforeSuite
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/
+permalink: /abstracttestngspringcontexttests-and-testng-beforesuite
+comments: true
 categories:
   - selenium
   - spring

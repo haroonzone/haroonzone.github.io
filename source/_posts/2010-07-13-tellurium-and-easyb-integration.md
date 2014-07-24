@@ -2,7 +2,8 @@
 title: Tellurium and easyb integration
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/07/tellurium-and-easyb-integration/
+permalink: /tellurium-and-easyb-integration
+comments: true
 categories:
   - bdd
   - dsl

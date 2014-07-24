@@ -2,7 +2,8 @@
 title: Selenium RC and Pop-up handling
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2009/04/selenium-rc-and-pop-up-handling/
+permalink: /selenium-rc-and-pop-up-handling/
+comments: true
 categories:
   - selenium
   - testng

@@ -2,7 +2,8 @@
 title: Tellurium TestNG Archetype; An easy approach to get started with Tellurium
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/
+permalink: /tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium
+comments: true
 categories:
   - dsl
   - groovy

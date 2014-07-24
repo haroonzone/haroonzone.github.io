@@ -2,7 +2,8 @@
 title: Setting up a test project with Selenium, TestNG and Maven
 author: Haroon Rasheed
 layout: post
-permalink: /blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/
+permalink: /setting-up-a-test-project-with-selenium-testng-and-maven
+comments: true
 categories:
   - maven
   - selenium
