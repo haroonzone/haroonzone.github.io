@@ -20,6 +20,7 @@ Recently I started looking at ways of writing Selenium functional tests for a se
 
 Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.
 
+<!-- more -->
   
 Following are the contents of the pom.xml file for my project.
 
