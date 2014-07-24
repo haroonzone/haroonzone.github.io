@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cuanto | Pragmatic QA]]></title>
+  <link href="http://pragmaticqa.co.uk/categories/cuanto/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-24T12:57:06+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
+  <author>
+    <name><![CDATA[Haroon Rasheed]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Track Your Tests With Cuanto]]></title>
+    <link href="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/"/>
+    <updated>2011-03-10T00:00:00+00:00</updated>
+    <id>http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto</id>
+    <content type="html"><![CDATA[<p>How often a developer has come to you and asked the following questions about a test failure.</p>
+
+<ul>
+<li>When it started failing?</li>
+<li>Was it failing for the same reason before?</li>
+</ul>
+
+
+<p>How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?</p>
+
+<p>In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements.</p>
+
+<p>Also Continuous integration tools are great and generate very good HTML reports but those HTML reports are tied to a build. It is not easy to navigate through each build and open up the test report to see the history of a particular test method, let alone verify the reason for the test failure.</p>
+
+<p>Beside this, once you have the HTML reports from the test run, you cannot store any analytical information about that test run anywhere until I found a very good tool for doing all this and much more. The name of the tool is <a href="http://www.trackyourtests.com/"> Cuanto </a></p>
+
+<p>I will go through the main features of Cuanto here and how we can use it to track TestNG tests. Cuanto supports TestNG, JUnit , NUnit and Manual test tracking, but I will go through the TestNG tests tracking. I have written a custom TestNG listener that uses Cuanto API to log the test results at the run-time. You can find more information about this listener on my <a href="https://github.com/haroonzone/cuanto-testng-listener">GitHub Repo</a></p>
+
+<p>When you run the tests using the TestNG listener, then you can analyse the test results using cuanto as follows.</p>
+
+<p>Go to the Cuanto URL in my case it is <a href="http://localhost:8080/cuanto">http://localhost:8080/cuanto</a>
+You will see the test run information as below.</p>
+
+<p><img src="/images/test_run.png" width="1000" height="490"></p>
+
+<p>This would show all the test runs for your project, now if you click on the first test run. It will open the view with all the tests that are run as part of this test run as shown below.</p>
+
+<p><img src="/images/test_outcome.png" width="1000" height="350"></p>
+
+<p>In this view, you have all the useful information about your tests such as test history, output, reason for the test failure. It also indicates if there is a new failure.</p>
+
+<p>When you click the History icon for any test method, then you will be able to view the historic information about the tests as how often this test have failed and what was the reason for the failure each time.</p>
+
+<p>You can sort the tests based on the duration and it would help you in identifying you slow tests easily then you can make informed decision about these tests.</p>
+
+<p>There is much more to Cuanto then this and it has the potential to become a very useful repository for the historical information about your tests.
+You can find out more about Cuanto on their website. They are working on a new Cuanto 2.8.0 version which is in beta at the moment. I have not looked at the change log but it is encouraging that people are still working on it.</p>
+]]></content>
+  </entry>
+  
+</feed>

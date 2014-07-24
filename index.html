@@ -1744,9 +1744,833 @@ INFO] You can implement step definitions for undefined steps with these snippets
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/">AbstractTestNGSpringContextTests and TestNG @BeforeSuite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-05T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
+
+<p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
+
+<p>But when I did that I got null pointer exceptions all over the place, the code was complaining about the classes instantiated via Spring Application Context being null, and when I looked at the AbstractTestNGSpringContextTests implementation I found that AbstractTestNGSpringContextTests’s springTestContextPrepareTestInstance() method is currently annotated with @BeforeClass, which does not allow @BeforeSuite methods in subclasses from interacting with the ApplicationContext.</p>
+
+<p>To overcome this problem, you can override the springTestContextPrepareTestInstance() method in your subclass as follows.</p>
+
+<figure class='code'><figcaption><span>lang: java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@BeforeSuite(alwaysRun = true)
+</span><span class='line'>@BeforeClass(alwaysRun = true)
+</span><span class='line'>@BeforeTest(alwaysRun = true)
+</span><span class='line'>@Override
+</span><span class='line'>protected void springTestContextPrepareTestInstance() throws Exception {
+</span><span class='line'>        super.springTestContextPrepareTestInstance();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/09/use-of-hamcrest-for-test-assertions/">Use of Hamcrest for Test Assertions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-04T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/09/use-of-hamcrest-for-test-assertions/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
+
+<pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
+assertTrue (thePage.isLinkPresent(), "Link 1 is present.")
+</code></pre>
+
+<p>The equivalent assertions using hamcrest would be as follows.</p>
+
+<pre><code>assertThat("Link count on the page", thePage.getLinkCount(), equalTo(10));
+assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
+</code></pre>
+
+<p>You can see that the hamcrest matchers are more expressive and readable in the code. Another benfit of using hamcrest is that you can write custom matchers easily. e.g. you want to write an assertion in the test that checks that you have more than 20 items in your list and the item count is an even number.</p>
+
+<pre><code>assertThat ("Country item count", countryList.getCount(), allOf(greaterThan(20), evenNumber()));
+</code></pre>
+
+<p>It is easy to write and much more readable in the tests and if the test fails then it gives a clear description of the failure. Another benefit of using hamcrest is that you as a test developer does not have to worry about the different in the method signature for TestNG and JUnit.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/tellurium-and-easyb-integration/">Tellurium and Easyb Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-13T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/07/tellurium-and-easyb-integration/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
+easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
+
+<p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
+
+<p>There are different ways to <a href="http://www.easyb.org/running.html">run easyb stories</a>. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;groupId&gt;</span>org.telluriumsource<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;artifactId&gt;</span>tellurium-core<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;version&gt;</span>0.8.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.easyb<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-easyb-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;version&gt;</span>0.9.7<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;easybTestDirectory&gt;</span>
+</span><span class='line'>                    ${basedir}/src/test/groovy/org/telluriumsource/easyb/story
+</span><span class='line'>                    <span class="nt">&lt;/easybTestDirectory&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;storyReport&gt;</span>
+</span><span class='line'>                    ${project.build.directory}/easyb-stories.txt
+</span><span class='line'>                    <span class="nt">&lt;/storyReport&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;xmlReport&gt;</span>
+</span><span class='line'>                    ${project.build.directory}/easyb-report.xml
+</span><span class='line'>                    <span class="nt">&lt;/xmlReport&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can use any of the Java IDEs to write an easyb story. There are plug-ins available for IntelliJ and Eclipse. Following is the code for GoogleSearchTest.story. You might want to change the configuration in the pom.xml above to match to your environment.</p>
+
+<figure class='code'><figcaption><span>lang: groovy</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import org.telluriumsource.test.java.TelluriumEasybTestCase
+</span><span class='line'>import easyb.module.GoogleSearchModule
+</span><span class='line'>
+</span><span class='line'>scenario "user searches for tellurium on google.com", {
+</span><span class='line'>
+</span><span class='line'>before "start tellurium"
+</span><span class='line'>  tellurium = new TelluriumEasybTestCase();
+</span><span class='line'>  tellurium.start();
+</span><span class='line'>  googleSearch = new GoogleSearchModule();
+</span><span class='line'>  googleSearch.defineUi();
+</span><span class='line'>  tellurium.connectSeleniumServer();
+</span><span class='line'>
+</span><span class='line'>given "google.com is up",{
+</span><span class='line'>  tellurium.connectUrl("http://www.google.com");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>when "user searches for tellurium",{
+</span><span class='line'>  googleSearch.doGoogleSearch("tellurium test");
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>then "title should start with tellurium",{
+</span><span class='line'>  googleSearch.getTitle().shouldStartWith "tellurium";
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>after "stop tellurium"
+</span><span class='line'>    tellurium.stop();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You would have notice that we are making use of GoogleSearchModule which is standard way of defining UI modules in Tellurium and we have also exposed methods to run Tellurium within an easyb story in TelluriumEasybTestCase.</p>
+
+<p>This is all you need to do in order to define an easyb story and run this using Tellurium.</p>
+
+<p>You can use the maven test goal to run the easyb stories.
+  mvn clean test</p>
+
+<p>Once the test is finished, the output will be generated in your project build directory as easyb-stories.txt and easyb-report.xml</p>
+
+<p>Similarly you can write an easyb specification and use Tellurium to drive the tests for that specification. We are very excited about this as this is just the beginning to drive Tellurium towards Behaviour Driven Development.</p>
+
+<p>You can find the sample project on Tellurium code repository under the following location.
+<a href="http://code.google.com/p/aost/source/browse/#svn/trunk/extensions/tellurium-easyb">http://code.google.com/p/aost/source/browse/#svn/trunk/extensions/tellurium-easyb</a></p>
+
+<p>As always, in case of any questions please feel free to post it to the <a href="http://groups.google.com/group/tellurium-users">Tellurium User Group</a>.</p>
+
+<p>Thanks
+Tellurium Team</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
+
+<p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
+
+<p>We will be creating a new <a href="http://code.google.com/p/aost">Tellurium</a> project by making use of the Tellurium TestNG Archetype. This is an easy and quick way to get yourself started with <a href="http://code.google.com/p/aost">Tellurium</a>.</p>
+
+<p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
+
+<p>The first step is to modify or create your maven setting.xml file to allow you to automatically include <a href="http://code.google.com/p/aost">Tellurium</a> artifacts in your Maven project.
+This should go in your_home/.m2/settings.xml file:</p>
+
+<figure class='code'><figcaption><span>lang: xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;settings>
+</span><span class='line'>    &lt;profiles>
+</span><span class='line'>        &lt;profile>
+</span><span class='line'>            &lt;activation>
+</span><span class='line'>                &lt;activeByDefault>true&lt;/activeByDefault>
+</span><span class='line'>            &lt;/activation>
+</span><span class='line'>            &lt;repositories>
+</span><span class='line'>                 &lt;repository>
+</span><span class='line'>                    &lt;id>kungfuters-public-snapshots-repo&lt;/id>
+</span><span class='line'>                    &lt;name>Kungfuters.org Public Snapshot Repository&lt;/name>
+</span><span class='line'>                    &lt;releases>
+</span><span class='line'>                        &lt;enabled>false&lt;/enabled>
+</span><span class='line'>                    &lt;/releases>
+</span><span class='line'>                    &lt;snapshots>
+</span><span class='line'>                        &lt;enabled>true&lt;/enabled> 
+</span><span class='line'>                    &lt;/snapshots>
+</span><span class='line'>                    &lt;url>http://maven.kungfuters.org/content/repositories/snapshots&lt;/url>
+</span><span class='line'>                &lt;/repository>
+</span><span class='line'>                &lt;repository>
+</span><span class='line'>                    &lt;id>kungfuters-public-releases-repo&lt;/id>
+</span><span class='line'>                    &lt;name>Kungfuters.org Public Releases Repository&lt;/name>
+</span><span class='line'>                    &lt;releases>
+</span><span class='line'>                        &lt;enabled>true&lt;/enabled> 
+</span><span class='line'>                    &lt;/releases>
+</span><span class='line'>                    &lt;snapshots>
+</span><span class='line'>                        &lt;enabled>false&lt;/enabled>
+</span><span class='line'>                    &lt;/snapshots>
+</span><span class='line'>                    &lt;url>http://maven.kungfuters.org/content/repositories/releases&lt;/url>
+</span><span class='line'>                &lt;/repository> 
+</span><span class='line'>            &lt;/repositories>
+</span><span class='line'>        &lt;/profile>
+</span><span class='line'>    &lt;/profiles>
+</span><span class='line'>&lt;/settings></span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, run the following maven command to create your new project</p>
+
+<pre><code>mvn archetype:create -DgroupId=your_group_id \
+                     -DartifactId=your_artifact_id \
+                     -DarchetypeArtifactId=tellurium-testng-archetype \
+                     -DarchetypeGroupId=tellurium \
+                     -DarchetypeVersion=0.6.0
+</code></pre>
+
+<p>Without adding the <a href="http://code.google.com/p/aost">Tellurium</a> Maven repository, you can specify it in the command line as</p>
+
+<pre><code>mvn archetype:create -DgroupId=your_group_id \
+                     -DartifactId=your_artifact_id \
+                     -DarchetypeArtifactId=tellurium-testng-archetype \
+                     -DarchetypeGroupId=tellurium \
+                     -DarchetypeVersion=0.6.0 \
+                     -DarchetypeRepository=http://maven.kungfuters.org/content/repositories/releases
+</code></pre>
+
+<p>But you still need to put the <a href="http://code.google.com/p/aost">Tellurium</a> repository into your settings.xml later since the Tellurium test project needs to download other <a href="http://code.google.com/p/aost">Tellurium</a> artifacts from the repository, for example, the <a href="http://code.google.com/p/aost">tellurium</a> core jar file.</p>
+
+<p>After the project is created, you will find the following files</p>
+
+<pre><code>pom.xml
+src
+src/main
+src/main/groovy
+src/main/resources
+src/test
+src/test/groovy
+src/test/groovy/module
+src/test/groovy/module/GoogleSearchModule.groovy
+src/test/groovy/test
+src/test/groovy/test/GoogleSearchTestCase.java
+src/test/resources
+TelluriumConfig.groovy
+</code></pre>
+
+<p>You should use your IDE to open the project, for example, in IntelliJ IDEA, do the following steps</p>
+
+<p><strong>New Project > Import project from external model > Maven > Project directory > Finish</strong></p>
+
+<p>You will open up a Maven project and make sure you are using Groovy 1.6.0 in your project. After that, compile the project and run the example test GoogleSearchTestCase.</p>
+
+<p>If you want to run the tests in command line, you can use the following command</p>
+
+<pre><code>mvn clean test
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Setting Up a Test Project With Selenium, TestNG and Maven</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
+
+<p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
+
+<p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
+
+<p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+<p>To create a maven project, execute the following.
+  mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`</p>
+
+<p>You will notice maven doing its magic and creating a directory structure for you. Once it is complete do a list in the current working directory and you will notice a directory called functionalTests in your workspace. The directory structure will be as follows.</p>
+
+<pre><code>|-functionalTests
+|--src
+|----main
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+|----test
+|------java
+|--------com
+|----------pragmaticqa
+|------------tests
+</code></pre>
+
+<p>There is a debate going on these days about Convention over Configuration. Maven off course support Convention rather than project specific configuration. The structure of a maven project will always be similar to the structure shown above. All the application specific code resides in the src/main directory and the tests will be in the src/test directory with their respective resources.</p>
+
+<p>In any maven project POM plays an important part in organizing the project phases and project dependencies. The contents of the sample POM in the functionalTest project are as follows.</p>
+
+<p>I would highly recommend that you familiarize yourself with some basic concepts of maven like packaging, artifacts and version information. Clearly from the POM file below, the version of our application is 1.0-SNAPSHOT and the artifiact ID is functionalTests.</p>
+
+<p>We are interested in the dependencies, in this section you can define the external modules or other projects that you need to make available to your project. In our case we are interested in adding TestNG and Selenium RC support to our project. Therefore we will remove the JUnit dependency and add TestNG and Selenium RC. After doing this our POM contents will be as follows.</p>
+
+<figure class='code'><figcaption><span>lang: pom.xml</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>  <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;groupId&gt;</span>com.pragmaticqa.tests<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;artifactId&gt;</span>functionalTests<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;version&gt;</span>1.0-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;name&gt;</span>functionalTests<span class="nt">&lt;/name&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;url&gt;</span>http://maven.apache.org<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;dependencies&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.testng<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>testng<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;classifier&gt;</span>jdk15<span class="nt">&lt;/classifier&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>5.11<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;dependency&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;groupId&gt;</span>org.seleniumhq.selenium.client-drivers<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;artifactId&gt;</span>selenium-java-client-driver<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;version&gt;</span>1.0.3<span class="nt">&lt;/version&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/dependency&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/dependencies&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;build&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;plugins&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                 <span class="nt">&lt;artifactId&gt;</span>maven-compiler-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;source&gt;</span>1.5<span class="nt">&lt;/source&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;target&gt;</span>1.5<span class="nt">&lt;/target&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.codehaus.mojo<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>selenium-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>pre-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>start-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;background&gt;</span>true<span class="nt">&lt;/background&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;id&gt;</span>stop-selenium<span class="nt">&lt;/id&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;phase&gt;</span>post-integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                              <span class="nt">&lt;goal&gt;</span>stop-server<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                          <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                      <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="nt">&lt;plugin&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="nt">&lt;/artifactId&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                    <span class="c">&lt;!-- Skip the normal tests, we&#39;ll run them in the integration-test phase --&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;skip&gt;</span>true<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="nt">&lt;executions&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;execution&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;phase&gt;</span>integration-test<span class="nt">&lt;/phase&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;goals&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;goal&gt;</span>test<span class="nt">&lt;/goal&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/goals&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;configuration&gt;</span>
+</span><span class='line'>                            <span class="nt">&lt;skip&gt;</span>false<span class="nt">&lt;/skip&gt;</span>
+</span><span class='line'>                        <span class="nt">&lt;/configuration&gt;</span>
+</span><span class='line'>                    <span class="nt">&lt;/execution&gt;</span>
+</span><span class='line'>                <span class="nt">&lt;/executions&gt;</span>
+</span><span class='line'>            <span class="nt">&lt;/plugin&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;/plugins&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/build&gt;</span>
+</span><span class='line'><span class="nt">&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Modify AppTest.java to make it a valid Selenium – TestNG test as shown below.</p>
+
+<figure class='code'><figcaption><span>lang: AppTest.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">pragmaticqa</span><span class="o">.</span><span class="na">tests</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">com.thoughtworks.selenium.DefaultSelenium</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.AfterClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.BeforeClass</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">org.testng.annotations.Test</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertTrue</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">testng</span><span class="o">.</span><span class="na">Assert</span><span class="o">.</span><span class="na">assertEquals</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * Unit test for simple App.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppTest</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">DefaultSelenium</span> <span class="n">selenium</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@BeforeClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultSelenium</span><span class="o">(</span><span class="s">&quot;localhost&quot;</span><span class="o">,</span><span class="mi">4444</span><span class="o">,</span><span class="s">&quot;*firefox&quot;</span><span class="o">,</span><span class="s">&quot;http://www.google.com/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Test</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testApp</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="s">&quot;/&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">type</span><span class="o">(</span><span class="s">&quot;q&quot;</span><span class="o">,</span><span class="s">&quot;Selenium&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">click</span><span class="o">(</span><span class="s">&quot;btnG&quot;</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">assertEquals</span><span class="o">(</span><span class="n">selenium</span><span class="o">.</span><span class="na">getTitle</span><span class="o">(),</span> <span class="s">&quot;Google&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@AfterClass</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span>
+</span><span class='line'>    <span class="o">{</span>
+</span><span class='line'>        <span class="n">selenium</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The setup is complete and you can test the setup by opening up a terminal and go the functionalTests directory. Once you are in the directory do the following.</p>
+
+<p>  mvn integration-test</p>
+
+<p>You will see maven running the tests and once the maven process is complete you will have an output like this.</p>
+
+<pre><code>Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.382 sec
+Results :
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 23 seconds
+[INFO] Finished at: Thu May 20 21:38:45 BST 2010
+[INFO] Final Memory: 25M/80M
+[INFO] ------------------------------------------------------------------------
+</code></pre>
+
+<p>I hope this helps people in getting started with Maven, Selenium and TestNG.</p>
+
+<p>Happy testing!!!!</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
-      <a class="prev" href="/posts/2">&larr; Older</a>
+      <a class="prev" href="/page2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
