@@ -111,6 +111,9 @@
 
 <time datetime="2012-10-28T00:00:00+01:00" pubdate data-updated="true"></time>
         
+           | <a href="/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2012/10/using-apache-commons-configuration-to-manage-property-files/">Comments</a>
+        
       </p>
     
   </header>
@@ -155,6 +158,9 @@
 
 
 <time datetime="2012-10-05T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2012/10/comparing-lists-with-hamcrest/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest/">Comments</a>
         
       </p>
     
@@ -233,6 +239,9 @@
 
 <time datetime="2011-03-10T00:00:00+00:00" pubdate data-updated="true"></time>
         
+           | <a href="/blog/2011/03/track-your-tests-with-cuanto/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2011/03/track-your-tests-with-cuanto/">Comments</a>
+        
       </p>
     
   </header>
@@ -282,6 +291,9 @@
 
 <time datetime="2011-02-16T00:00:00+00:00" pubdate data-updated="true"></time>
         
+           | <a href="/blog/2011/02/running-cucumber-feature-using-tellurium/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2011/02/running-cucumber-feature-using-tellurium/">Comments</a>
+        
       </p>
     
   </header>
@@ -325,6 +337,9 @@
 
 <time datetime="2010-11-18T00:00:00+00:00" pubdate data-updated="true"></time>
         
+           | <a href="/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/">Comments</a>
+        
       </p>
     
   </header>
@@ -339,6 +354,271 @@
   
     <footer>
       <a rel="full-article" href="/blog/2010/11/bdd-using-selenium-2-maven-and-cucumber/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/">AbstractTestNGSpringContextTests and TestNG @BeforeSuite</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-10-05T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/10/abstracttestngspringcontexttests-and-testng-beforesuite/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We are using Spring 2.5, TestNG and Selenium RC for our functional tests. In out test base class we are using @BeforeClass to get the new browser session from Selenium Server. Today I wanted to replace @BeforeClass with @BeforeSuite annotation, so that we only launch browser before running the test suite and this browser session would be shared among the tests thus reducing the test execution time.</p>
+
+<p>I thought it to be a straight forward task by just replacing the @BeforeClass with the @BeforeSuite annotation, because these annotations are already provided by TestNG.</p>
+
+<p>But when I did that I got null pointer exceptions all over the place, the code was complaining about the classes instantiated via Spring Application Context being null, and when I looked at the AbstractTestNGSpringContextTests implementation I found that AbstractTestNGSpringContextTests’s springTestContextPrepareTestInstance() method is currently annotated with @BeforeClass, which does not allow @BeforeSuite methods in subclasses from interacting with the ApplicationContext.</p>
+
+<p>To overcome this problem, you can override the springTestContextPrepareTestInstance() method in your subclass as follows.</p>
+
+<figure class='code'><figcaption><span>lang: java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@BeforeSuite(alwaysRun = true)
+</span><span class='line'>@BeforeClass(alwaysRun = true)
+</span><span class='line'>@BeforeTest(alwaysRun = true)
+</span><span class='line'>@Override
+</span><span class='line'>protected void springTestContextPrepareTestInstance() throws Exception {
+</span><span class='line'>        super.springTestContextPrepareTestInstance();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/09/use-of-hamcrest-for-test-assertions/">Use of Hamcrest for Test Assertions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-09-04T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/09/use-of-hamcrest-for-test-assertions/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
+
+<pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
+assertTrue (thePage.isLinkPresent(), "Link 1 is present.")
+</code></pre>
+
+<p>The equivalent assertions using hamcrest would be as follows.</p>
+
+<pre><code>assertThat("Link count on the page", thePage.getLinkCount(), equalTo(10));
+assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
+</code></pre>
+
+<p>You can see that the hamcrest matchers are more expressive and readable in the code. Another benfit of using hamcrest is that you can write custom matchers easily. e.g. you want to write an assertion in the test that checks that you have more than 20 items in your list and the item count is an even number.</p>
+
+<pre><code>assertThat ("Country item count", countryList.getCount(), allOf(greaterThan(20), evenNumber()));
+</code></pre>
+
+<p>It is easy to write and much more readable in the tests and if the test fails then it gives a clear description of the failure. Another benefit of using hamcrest is that you as a test developer does not have to worry about the different in the method signature for TestNG and JUnit.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/tellurium-and-easyb-integration/">Tellurium and Easyb Integration</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-13T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/07/tellurium-and-easyb-integration/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/07/tellurium-and-easyb-integration/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Tellurium is now integrated with easyb framework. It is now very easy to write a Tellurium tests using easyb story/specification approach.
+easyb is a behavior driven development framework for the Java platform. By using a specification based Domain Specific Language, easyb aims to enable executable, yet readable documentation.</p>
+
+<p>You can find more information about easyb on the following url <a href="http://www.easyb.org">http://www.easyb.org</a></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/07/tellurium-and-easyb-integration/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Tellurium TestNG Archetype; an Easy Approach to Get Started With Tellurium</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I will be writing more about <a href="http://code.google.com/p/aost">Tellurium</a> in the near future. I have not been spending that much time on <a href="http://code.google.com/p/aost">Tellurium</a> these days as I would have liked to, and the team has done an incredible job in releasing <a href="http://code.google.com/p/aost">Tellurium 0.7.0</a> with many exciting new features.</p>
+
+<p>It was easy to pick this topic as a starting point to familiarize myself with the new features in <a href="http://code.google.com/p/aost">Tellurium</a> as I go along exploring.</p>
+
+<p>We will be creating a new <a href="http://code.google.com/p/aost">Tellurium</a> project by making use of the Tellurium TestNG Archetype. This is an easy and quick way to get yourself started with <a href="http://code.google.com/p/aost">Tellurium</a>.</p>
+
+<p>Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/05/tellurium-testng-archetype-an-easy-approach-to-get-started-with-tellurium/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Setting Up a Test Project With Selenium, TestNG and Maven</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-20T00:00:00+01:00" pubdate data-updated="true"></time>
+        
+           | <a href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/#disqus_thread"
+             data-disqus-identifier="http://pragmaticqa.co.uk/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It is useful to Selenium and TestNG using an IDE, but in the real world projects are not restricted to the use of IDE. Projects need build tools like ANT or MAVEN to compile, install, deploy and run the application.</p>
+
+<p>I am involved in couple of projects that use Maven as the build tool, although Maven is more than just the build tool. It covers the complete life-cycle of the project and testing is a pivotal part in project life-cycle especially for projects that tend to follow TDD and Acceptance Test Driven Development.</p>
+
+<p>In order to achieve this you need to install java and maven2 on your machine. Make sure that you have set the JDK_HOME and M2_HOME directory correctly.</p>
+
+<p>Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2010/05/setting-up-a-test-project-with-selenium-testng-and-maven/">Read on &rarr;</a>
     </footer>
   
 
@@ -375,7 +655,6 @@
         
         var disqus_script = 'count.js';
       
-
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
       dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
