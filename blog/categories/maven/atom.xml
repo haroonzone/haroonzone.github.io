@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Maven | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/maven/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-24T14:36:05+01:00</updated>
+  <updated>2014-07-24T14:39:49+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -1127,6 +1127,9 @@ password = staging.password
     <content type="html"><![CDATA[<p>Recently I started looking at ways of writing Selenium functional tests for a set up using BDD. There are different tools available to write the tests such as easyb, scalatest &amp; cucumber. This blog post will focus on setting up a test project using Selenium 2, maven and Cucumber.</p>
 
 <p>Once we have set up the Maven project then we need to set up the POM file so that all the required jar files for Selenium and Cucumber are available to the project.</p>
+
+<!-- more -->
+
 
 <p>Following are the contents of the pom.xml file for my project.</p>
 
