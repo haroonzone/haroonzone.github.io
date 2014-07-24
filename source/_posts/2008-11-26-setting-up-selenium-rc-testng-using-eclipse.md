@@ -26,6 +26,8 @@ Install TestNG plugin for eclipse (<http://testng.org/doc/download.html>)
 
 Please follow the step by step instructions to setup the test environment.
 
+<!-- more -->
+
 Launch Eclipse, you can setup any directory as your default workspace. For this example, my default workspace is as shown below.
 
 {% img /images/001.jpg 600 243 %}

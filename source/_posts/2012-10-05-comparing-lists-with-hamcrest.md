@@ -34,6 +34,8 @@ public void listTestsWithOrder(){
 }
 {% endcodeblock%}
 
+<!-- more -->
+
 It worked nicely but then like anything in the project lifecycle, our requirement changed and we had to assert the contents of the two lists where the order does not matter, at this time we were using version 1.1 of Hamcrest. After a bit of digging I found that the new version (1.3) of Hamcrest has some new matchers specifically for collections, and changing our tests to following worked like a charm.
 
 {% codeblock lang: ListMatcher2.java%}

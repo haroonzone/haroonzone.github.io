@@ -15,6 +15,8 @@ Recently there was a question posted to the Tellurium user group about support f
 
 I created a new tellurium maven project using one of the maven archetypes available. Once we have the project skeleton, I added the dependencies for Cucumber cuke4duke plugin, that will be used to run the Tellurium test.
 
+<!-- more -->
+
 Following is my pom.xml
 
 {% codeblock lang: pom.xml%}

@@ -22,6 +22,8 @@ How often a developer has come to you and asked the following questions about a 
 
 How do you then start looking at the previous test runs? Do you perform complex SQL to get this information out of a database if you are logging results there, or do you go through different builds in the CI tools to find this information?
 
+<!-- more -->
+
 In reality if you are doing extensive UI test automation using any tool like Selenium, Watir or Sahi. You will have some test failures that are either due to the environment being slow or some particular service not running in a complex system, and even sometimes the application wont respond in time no matter how intelligent your test scripts are without using the hard coded wait statements. 
 
 Also Continuous integration tools are great and generate very good HTML reports but those HTML reports are tied to a build. It is not easy to navigate through each build and open up the test report to see the history of a particular test method, let alone verify the reason for the test failure. 

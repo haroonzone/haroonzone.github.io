@@ -19,6 +19,8 @@ These are also vital when you want to run the tests against different environmen
 
 Once you have per environment property file then the next step is to make sure that you only hold information about the specific environment in the respective property file and do not repeat the same set of properties in all these files. For example the following three files represent three different environments where you want to run your tests, and each environment will have a distinct application url, a username , a password and we are assuming that these are Selenium or WebDriver functional tests and you want to usefor your tests. Therefore the property files hold the information about Sauce Labs.
 
+<!-- more -->
+
 **functional-test-local.properties**
 	app.url = http://localhost:8080/
 	username = local.username
@@ -43,7 +45,6 @@ Once you have per environment property file then the next step is to make sure t
 	sauce.url = http://ondemand.saucelabs.com:80/wd/hub
 	sauce.username = sauceUsername
 	sauce.client.secret = sauceSecretKey
-
 
 When you run the tests, you pass an argument to your tests to load a specific property file. So far, everything seems to be fine except that you can see that the information about the Sauce Labs is repeated in each of the property file, a better approach would be to have a common property file that can have the properties that are common across all the environments. In this case this information is about Sauce Labs.
 

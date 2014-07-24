@@ -20,6 +20,8 @@ In order to achieve this you need to install java and maven2 on your machine. Ma
 
 Once you have done this, you can open a terminal on your screen and go to your default workspace or the directory where you want to create the project.
 
+<!-- more -->
+
 To create a maven project, execute the following.
   mvn archetype:create -DgroupId=com.pragmaticqa.tests -DartifactId=functionalTests`
 

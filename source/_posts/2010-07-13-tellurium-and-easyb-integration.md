@@ -20,6 +20,8 @@ easyb is a behavior driven development framework for the Java platform. By using
 
 You can find more information about easyb on the following url http://www.easyb.org
 
+<!-- more -->
+
 There are different ways to [run easyb stories][1]. We will be using maven to run Tellurium tests as easyb story. You need to define the following dependencies in your pom.xml to work with easyb and Tellurium.
 
 {% codeblock lang: pom.xml%}

@@ -19,6 +19,8 @@ As a test automation engineer, this is the foremost thing you would do. We shoul
 
 At this point you should define clear objectives for test automation, you also need to analyse the application under test and determine that which objects and operations are used by the business processes that you are going to automate. You also need to define the data set up and tear down so that your tests starts from a known state of the database and after the test execution tear down the data that it has created during test execution, so that you can run these tests on different environments. This would also ensure that your tests do not leave the database in inconsistent state.
 
+<!-- more -->
+
 There are many techniques available to do the database operations. I have been using DBUnit for this purposes and it is really a good open source tool to do the job.
 
 The next step is to decide on organizing the tests. We have decided on using Tellurium as the tool of our choice for our web application, because Tellurium provides an easy and practical way to organize the web UI tests out of the box and we can focus on writing the new tests using the features available. Tellurium is a generic test automation framework that can be utilized on any web application test automation project. It means that we do not have to worry about writing a new framework for every application/project.

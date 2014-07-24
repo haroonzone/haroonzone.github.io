@@ -21,6 +21,8 @@ We will be creating a new [Tellurium][1] project by making use of the Tellurium 
 
 Tellurium includes two maven archetypes, i.e., tellurium-junit-archetype and tellurium-testng-archetype for Tellurium JUnit test project and Tellurium TestNG test project, respectively.
 
+<!-- more -->
+
 The first step is to modify or create your maven setting.xml file to allow you to automatically include [Tellurium][1] artifacts in your Maven project.
 This should go in your_home/.m2/settings.xml file:
 
