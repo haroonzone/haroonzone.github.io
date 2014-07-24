@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hamcrest | Pragmatic QA]]></title>
+  <link href="http://pragmaticqa.co.uk/blog/categories/hamcrest/atom.xml" rel="self"/>
+  <link href="http://pragmaticqa.co.uk/"/>
+  <updated>2014-07-24T13:01:14+01:00</updated>
+  <id>http://pragmaticqa.co.uk/</id>
+  <author>
+    <name><![CDATA[Haroon Rasheed]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Comparing Lists With Hamcrest]]></title>
+    <link href="http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest/"/>
+    <updated>2012-10-05T00:00:00+01:00</updated>
+    <id>http://pragmaticqa.co.uk/blog/2012/10/comparing-lists-with-hamcrest</id>
+    <content type="html"><![CDATA[<p>We have been using hamcrest matchers for some time now, and it is awesome to have more readable assertions in your tests. Recently we had a requirement to match lists for equality. This was simple enough, we used the following matcher to compare that the contents of the list are the same.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: ListMatcher1.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">listTestsWithOrder</span><span class="o">(){</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">red</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">green</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">orange</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">red</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">green</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">orange</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">assertThat</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">List</span> <span class="n">equality</span> <span class="n">without</span> <span class="n">order</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="n">list1</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">list2</span><span class="o">));&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>It worked nicely but then like anything in the project lifecycle, our requirement changed and we had to assert the contents of the two lists where the order does not matter, at this time we were using version 1.1 of Hamcrest. After a bit of digging I found that the new version (1.3) of Hamcrest has some new matchers specifically for collections, and changing our tests to following worked like a charm.</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>lang: ListMatcher2.java</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="nd">@Test</span>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">listTestsWithoutOrder</span><span class="o">(){</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
+</span><span class='line'>  <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">red</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">green</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list1</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">orange</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">green</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">orange</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);</span>
+</span><span class='line'>  <span class="n">list2</span><span class="o">.</span><span class="na">add</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">red</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;);&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>  <span class="n">assertThat</span><span class="o">(&amp;</span><span class="n">ldquo</span><span class="o">;</span><span class="n">List</span> <span class="n">equality</span> <span class="n">without</span> <span class="n">order</span><span class="o">&amp;</span><span class="n">rdquo</span><span class="o">;,</span> <span class="n">list1</span><span class="o">,</span> <span class="n">containsInAnyOrder</span><span class="o">(</span><span class="n">list2</span><span class="o">.</span><span class="na">toArray</span><span class="o">()));</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Notice the method <em>containsInAnyOrder</em>, this would compare the items in the list irrespective of the order. and if the order is important then it counterpart is <em>contains</em>. This would compare the items and would check for order as well.</p>
+
+<p>Also like any other matcher of Hamcrest, if your test fails then you get a very descriptive error message as follows.</p>
+
+<pre><code>java.lang.AssertionError: List equality without order
+Expected: iterable over ["green", "orange", "red", "blue"] in any order
+but: No item matches: “blue” in ["red", "green", "orange"]
+at org.hamcrest.MatcherAssert.assertThat(MatcherAssert.java:20)
+at com.ft.specs.ListTests.listTestsWithoutOrder(ListTests.java:32)
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Use of Hamcrest for Test Assertions]]></title>
+    <link href="http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions/"/>
+    <updated>2010-09-04T00:00:00+01:00</updated>
+    <id>http://pragmaticqa.co.uk/blog/2010/09/use-of-hamcrest-for-test-assertions</id>
+    <content type="html"><![CDATA[<p>I was recently introduced to <a href="http://code.google.com/p/hamcrest/wiki/Tutorial">hamcrest</a> (an open source matcher library). I was really impressed by the declarative nature of the match rules. We use TestNG to drive the Selenium Tests and naturally we are using TestNG assertions within our tests. Some of the TestNG assertions in our tests are as follows.</p>
+
+<pre><code>assertEqual (thePage.getLinkCount(), 10, "Link count on the page");
+assertTrue (thePage.isLinkPresent(), "Link 1 is present.")
+</code></pre>
+
+<p>The equivalent assertions using hamcrest would be as follows.</p>
+
+<pre><code>assertThat("Link count on the page", thePage.getLinkCount(), equalTo(10));
+assertThat("Link 1 is present", theBiscuit.isLinkPresent(), is(true));
+</code></pre>
+
+<p>You can see that the hamcrest matchers are more expressive and readable in the code. Another benfit of using hamcrest is that you can write custom matchers easily. e.g. you want to write an assertion in the test that checks that you have more than 20 items in your list and the item count is an even number.</p>
+
+<pre><code>assertThat ("Country item count", countryList.getCount(), allOf(greaterThan(20), evenNumber()));
+</code></pre>
+
+<p>It is easy to write and much more readable in the tests and if the test fails then it gives a clear description of the failure. Another benefit of using hamcrest is that you as a test developer does not have to worry about the different in the method signature for TestNG and JUnit.</p>
+]]></content>
+  </entry>
+  
+</feed>
