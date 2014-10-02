@@ -3,6 +3,12 @@
   
   
   <url>
+    <loc>http://pragmaticqa.co.uk/explore-it-with-automation</loc>
+    <lastmod>2014-10-02T14:01:54+01:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://pragmaticqa.co.uk/using-apache-commons-configuration-to-manage-property-files</loc>
     <lastmod>2012-10-28T00:00:00+01:00</lastmod>
     <priority>0.8</priority>
@@ -95,21 +101,21 @@
   
   <url>
     <loc>http://pragmaticqa.co.uk/blog/archives/</loc>
-    <lastmod>2014-07-25T16:23:10+01:00</lastmod>
+    <lastmod>2014-10-02T15:43:43+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://pragmaticqa.co.uk/</loc>
-    <lastmod>2014-07-25T16:23:10+01:00</lastmod>
+    <lastmod>2014-10-02T15:43:43+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://pragmaticqa.co.uk/about/</loc>
-    <lastmod>2014-07-25T16:23:10+01:00</lastmod>
+    <lastmod>2014-10-02T15:43:43+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

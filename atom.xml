@@ -4,7 +4,7 @@
   <title><![CDATA[Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-07-25T16:23:10+01:00</updated>
+  <updated>2014-10-02T15:43:43+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -12,6 +12,83 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Explore It With Automation]]></title>
+    <link href="http://pragmaticqa.co.uk/explore-it-with-automation"/>
+    <updated>2014-10-02T14:01:54+01:00</updated>
+    <id>http://pragmaticqa.co.uk/explore-it-with-automation</id>
+    <content type="html"><![CDATA[<p>I did a Selenium meetup talk couple of days ago. I decided to talk about exploratory testing and automation.</p>
+
+<p>For the meetup, we asked attendees to answer following questions when confirming their attendence via meetup.</p>
+
+<ol>
+<li>Which programming language do you use for automation?</li>
+<li>Why do you automate?</li>
+</ol>
+
+
+<p>The answers to the second question was not surprising at all. 98% of the users said that they automate the tests for regression testing and based on their answers I can say that following are the main objectives for an automated testing effort.</p>
+
+<ul>
+<li>save time &amp; money vs. manual testing</li>
+<li>improve software quality</li>
+<li>enhance testing efforts</li>
+<li>increase testing coverage</li>
+<li>eliminate error prone human behaviour</li>
+<li>faster feedback aka continuous integration</li>
+</ul>
+
+
+<p>Test automation is viewed as developing automated tests for the system based on the acceptane criteria defined by the business. The teams developing these features use different tools and techniques to show the progress and meet the acceptance criteria. Once all the tests/checks are green and the application is deployed to an environment then it acts as a definition of done for the team and the team can then move on to a set of new features. This is what most of the agile projects aspire to acheive and some successfully do.</p>
+
+<p>There are different types of automated test/checks developed by the team such as unit, integration, acceptance/functional, api contract tests and some times a form of performance tests if performance is something business cares about. These tests/checks are valuable to improve the testing cycle, reduce human effort and help the team while refactoring. In some cases these tests/checks act as the business specification and if you can read code then you can see what the code should do and how it should behave in certain scenarios.</p>
+
+<p>This is all good stuff and it helps the team to deliver quality code much quicker. I feel that testing is more than just automating some checks using a tool. Automation should be viewed as a tool that can assist testing and I am glad to see growing list of people in the testing community who share the same opinion.</p>
+
+<p>Exploratory testing is simultaneous learning, test design and test execution. As a tester you ask questions to the software, you learn from the answers and you ask more questions. There are different techniques to do exploratory testing and I am a big fan of session based testing. While keeping in mind this definition of exploratory testing, I have come up with the characterstics of an automated exploratory session and these characterstics are.</p>
+
+<ul>
+<li>context driven</li>
+<li>structured</li>
+<li>focussed</li>
+<li>adaptable</li>
+<li>short lived, low maintenance</li>
+<li>no assertion based failures</li>
+<li>can potentially run in Production (do not set up test data)</li>
+</ul>
+
+
+<p>These tests or scripts or checks (it does not matter what you call them) are very specific and looking to explore the software to find out about an aspect of it. These are structured and you need to plan them accordingly. They are adaptable to change based on the answers you get from the software. Most of the times they are short lived and therefore very low maintenance, in some cases you can use them for specific purposes and throw them away. They do not produce standard passed or failed result. You can use assertions but these are meaningless because the purpose of these scripts are to find information from the software under test.</p>
+
+<p>Following are some of the examples where I have used automation as a tool to explore software and found issues that have helped the team deliver quality software.</p>
+
+<h3>a newspaper article release</h3>
+
+<p>On a given date, we wanted to serve the article pages on the site from the new tech stack that the team had been developing for some months. The business decided to migrate 3 months of articles prior to the release date so that the site would have a consistent look and feel on the go live date. At the same time they wanted to migrate 7 years of articles.</p>
+
+<p>I decided to develop a script that would run in the production environment, it will go to the different pages on the site and collect different article urls. Once we have the URLs then we can check based on the article published date that either this should be served from the new tech stack or from the legacy stack. I started running the test once the release was live and soon found that some of the articles published after we have went live are being served from the old stack. This was not suppose to happen. It tooks us a long time to find out why this was happening but we found the root cause of the problem and fixed it on the same day.</p>
+
+<h3>a newspaper content api</h3>
+
+<p>I participated in one of the hackathons for a media organisation and instead of developing something cool, I decided to test their api in the production environment because as a tester how often you get the chance to run tests in the production environment without justifying it.
+The expectation from the API was to mirror the browser based site because the source of the data was the same. I wrote an API client using Groovy, httpbuilder and jsonbuilder and got the data back from the API. I also used web driver to browse the site and scrap the data. Once I have the data from the pages and the articles then I could compare and see if there are any differences. There were 512 pages on the site and each page had 20-25 different articles so the script ran for some time but at the end I found 9 different problems where the content coming from the API was not the same as displayed on the site.</p>
+
+<p>In both of the these examples, the development teams were using all differnet types of testing activities that an agile project uses these days. They had unit tests, integration tests, acceptance tests and all sort of other testing activities but you cannot possible develop regression tests for all different scenarios that might happen in the production environment. People will use your software in ways that product owners or the business analyst cannot think off.</p>
+
+<p>Other than that we can use automation to help testing. Following are some scenarios where I have used automation to help me in testing effectively.</p>
+
+<ul>
+<li>explore different types of data</li>
+<li>set up different sets of data</li>
+<li>support for database operations</li>
+<li>testing queues and broker messages</li>
+</ul>
+
+
+<p>I hope this helps fellow testers realising that automation is more than just automating bunch of checks that run may be every build and most of the time do not find the defects that often.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using Apache Commons Configuration to Manage Properties]]></title>
