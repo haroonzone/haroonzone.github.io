@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Exploration | Pragmatic QA]]></title>
   <link href="http://pragmaticqa.co.uk/blog/categories/exploration/atom.xml" rel="self"/>
   <link href="http://pragmaticqa.co.uk/"/>
-  <updated>2014-10-02T15:43:43+01:00</updated>
+  <updated>2014-10-03T16:08:04+01:00</updated>
   <id>http://pragmaticqa.co.uk/</id>
   <author>
     <name><![CDATA[Haroon Rasheed]]></name>
@@ -86,7 +86,7 @@ The expectation from the API was to mirror the browser based site because the so
 </ul>
 
 
-<p>I hope this helps fellow testers realising that automation is more than just automating bunch of checks that run may be every build and most of the time do not find the defects that often.</p>
+<p>I hope this helps fellow testers realising that automation is more than just automating bunch of checks that run may be every build and most of the time do not find the defects.</p>
 ]]></content>
   </entry>
   
